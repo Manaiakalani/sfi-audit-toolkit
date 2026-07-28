@@ -1,9 +1,20 @@
-# SFI Audit — Skill & MCP Server
+# SFI Audit Toolkit
 
-A single, reusable capability to **audit any project against Microsoft's Secure
-Future Initiative (SFI)**. It combines a versioned, fully-sourced knowledge base
-of the six SFI engineering pillars with a **read-only** repository/config
-scanner, exposed as an MCP server, a Copilot skill, and a standalone harness.
+**Audit any repository against Microsoft's Secure Future Initiative (SFI) security
+pillars.** A versioned, fully-sourced knowledge base of the six SFI engineering
+pillars combined with a **read-only** repository/config scanner — delivered as an
+**MCP server**, a **GitHub Copilot skill**, and a standalone **CLI harness**. Every
+control maps to **Zero Trust** and the **NIST Cybersecurity Framework (CSF 2.0)**,
+so you can run repeatable security, compliance, and DevSecOps reviews from the
+command line or directly inside an AI agent.
+
+> ⚠️ **Personal project — not affiliated with, authorized by, or endorsed by
+> Microsoft.** "Secure Future Initiative" and "SFI" refer to Microsoft's public
+> security program; this is an independent, best-effort side project by
+> [@Manaiakalani](https://github.com/Manaiakalani), built entirely from Microsoft's
+> publicly available documentation (see [`docs/PROVENANCE.md`](./docs/PROVENANCE.md)).
+> It is provided "as is" without warranty and is a heuristic aid, **not** a
+> compliance certification.
 
 - **Knowledge base** — [`data/*.json`](./data): 6 pillars, 28 objectives, 24
   best practices, **42 audit criteria**, Zero Trust + NIST CSF 2.0 mappings, a
@@ -15,6 +26,27 @@ scanner, exposed as an MCP server, a Copilot skill, and a standalone harness.
   regression fixtures.
 - **Docs** — [`docs/`](./docs): sources runbook, provenance/refresh procedure,
   and architecture (incl. the multi-model build record).
+
+## What it audits — the six SFI pillars
+
+The knowledge base covers all six Microsoft SFI engineering pillars, each with
+auditable criteria, Zero Trust mapping, and NIST CSF 2.0 functions:
+
+1. **Protect identities and secrets** — phishing-resistant MFA, managed and
+   short-lived workload identities, hardened secret vaults, least-privilege
+   just-in-time access.
+2. **Protect tenants and isolate systems** — tenant inventory and ownership,
+   cross-tenant deny-by-default, production/non-production isolation, Microsoft
+   Entra application governance.
+3. **Protect networks** — deny-by-default segmentation, private management and
+   PaaS access, strict egress control, identity-aware encrypted connectivity.
+4. **Protect engineering systems** — pinned dependencies and CI/CD actions,
+   pipeline least privilege, secret scanning, code-owner review, supply-chain
+   integrity.
+5. **Monitor and detect threats** — centralized security logging, standardized
+   audit telemetry, threat detection coverage.
+6. **Accelerate response and remediation** — incident response readiness, a
+   published security policy, automated containment and remediation.
 
 ## Quickstart
 
@@ -84,4 +116,5 @@ tests. Guidance and the scanner both read `data/`, so they never drift.
 
 ## License
 
-MIT.
+Released under the [MIT License](./LICENSE) — © 2026 Maximilian Stein. A personal
+project, maintained on a best-effort basis.
