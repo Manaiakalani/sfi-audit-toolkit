@@ -11,7 +11,8 @@ issue for a security report.
 
 - Preferred: open a private security advisory on this repository
   (**Security → Advisories → Report a vulnerability**).
-- Or email the code owners listed in [`CODEOWNERS`](./CODEOWNERS).
+- If that channel is unavailable, contact the maintainer
+  [@Manaiakalani](https://github.com/Manaiakalani) via their GitHub profile.
 
 Include a description, reproduction steps, affected files/versions, and impact.
 We aim to acknowledge within **2 business days** and to agree on a remediation

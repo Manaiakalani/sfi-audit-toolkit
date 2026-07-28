@@ -1,0 +1,39 @@
+# Dependabot configuration.
+#   * Track the tool's REAL dependency surface (mcp_server/) and the CI actions.
+#   * harness/fixtures/** are intentional GOLDEN TEST DATA: a deliberately pinned
+#     "compliant" example and a deliberately unpinned "noncompliant" example.
+#     Do not open version-update PRs for them, and ignore every package, so
+#     Dependabot stops churning the fake fixture requirements. (Security ALERTS
+#     on those fixtures, if any, are dismissed as "used in tests / not in
+#     production" rather than patched.)
+version: 2
+updates:
+  - package-ecosystem: "pip"
+    directory: "/mcp_server"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "deps"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "ci"
+
+  - package-ecosystem: "pip"
+    directory: "/harness/fixtures/compliant"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 0
+    ignore:
+      - dependency-name: "*"
+
+  - package-ecosystem: "pip"
+    directory: "/harness/fixtures/noncompliant"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 0
+    ignore:
+      - dependency-name: "*"

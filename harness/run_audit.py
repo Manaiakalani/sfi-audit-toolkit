@@ -55,6 +55,7 @@ SELF_EXCLUDES = [
     "data",
     "staging",
     "reports",
+    "self_audit.md",    # generated self-audit report; keeps re-audits idempotent
     "docs",
     ".venv",
     "skill.md",

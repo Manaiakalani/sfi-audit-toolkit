@@ -1,4 +1,4 @@
-# Pinned, trusted dependencies (exact versions; hashes enforced in CI).
+# Pinned, trusted dependencies (exact versions).
 azure-identity==1.17.1
 azure-keyvault-secrets==4.8.0
 requests==2.33.0

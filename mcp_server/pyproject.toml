@@ -7,9 +7,12 @@ name = "sfi-audit"
 version = "1.0.0"
 description = "Microsoft Secure Future Initiative (SFI) audit knowledge base and MCP server"
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 license = { text = "MIT" }
-dependencies = ["mcp[cli]>=1.2"]
+# mcp 2.x removed `mcp.server.fastmcp` (imported by server.py) and requires
+# Python >=3.10; stay on the 1.x line. The >=1.28.1 floor clears advisories
+# fixed in 1.28.1.
+dependencies = ["mcp[cli]>=1.28.1,<2"]
 
 [project.optional-dependencies]
 test = ["pytest>=7"]
