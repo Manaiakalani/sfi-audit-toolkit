@@ -14,6 +14,11 @@ updates:
       interval: "weekly"
     commit-message:
       prefix: "deps"
+    ignore:
+      # mcp 2.x removed mcp.server.fastmcp (imported by server.py); stay on the
+      # 1.x line until the server is ported. Minor/patch 1.x updates still flow.
+      - dependency-name: "mcp"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: "github-actions"
     directory: "/"
