@@ -9,10 +9,14 @@ tool that audits other projects against Microsoft's Secure Future Initiative
 Please report suspected vulnerabilities **privately**. Do not open a public
 issue for a security report.
 
-- Preferred: open a private security advisory on this repository
-  (**Security → Advisories → Report a vulnerability**).
-- If that channel is unavailable, contact the maintainer
-  [@Manaiakalani](https://github.com/Manaiakalani) via their GitHub profile.
+- Preferred (private): use GitHub's **private vulnerability reporting**, which is
+  enabled on this repository — go to the **Security** tab and choose
+  **Report a vulnerability** (Security → Advisories → Report a vulnerability).
+  This opens a private advisory visible only to you and the maintainer.
+- Fallback: if you cannot use private reporting, open a public issue that
+  contains **no vulnerability details** — just ask the maintainer
+  [@Manaiakalani](https://github.com/Manaiakalani) to open a private channel,
+  and share specifics only through the private advisory once it exists.
 
 Include a description, reproduction steps, affected files/versions, and impact.
 We aim to acknowledge within **2 business days** and to agree on a remediation
