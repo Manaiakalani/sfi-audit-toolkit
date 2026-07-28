@@ -1,0 +1,265 @@
+{
+  "sources": [
+    {
+      "url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-overview",
+      "title": "Secure Future Initiative (SFI) overview",
+      "type": "learn",
+      "retrieved_at": "2026-07-24",
+      "readable": true,
+      "used_for": "Durable canonical definition of the six engineering pillars, security principles, and Zero Trust / NIST CSF mappings that drive the pillar and checklist knowledge base",
+      "report_version": "n/a"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-adoption",
+      "title": "Secure Future Initiative (SFI) adoption",
+      "type": "learn",
+      "retrieved_at": "2026-07-24",
+      "readable": true,
+      "used_for": "Durable adoption best-practice guidance cited as the source_url for the scanner's structural audit criteria",
+      "report_version": "n/a"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/phishing-resistant-mfa",
+      "title": "Phishing-resistant MFA",
+      "type": "learn",
+      "retrieved_at": "2026-07-24",
+      "readable": true,
+      "used_for": "Durable pattern guidance cited as the source_url for the phishing-resistant MFA audit criterion (Protect identities and secrets)",
+      "report_version": "n/a"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/adopt-standard-sdk-identity",
+      "title": "Adopt standard SDKs for identity",
+      "type": "learn",
+      "retrieved_at": "2026-07-24",
+      "readable": true,
+      "used_for": "Durable pattern guidance cited as the source_url for the standard-identity-SDK audit criterion (Protect identities and secrets)",
+      "report_version": "n/a"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/higher-security-microsoft-entra-id-apps",
+      "title": "Higher security for Microsoft Entra ID apps",
+      "type": "learn",
+      "retrieved_at": "2026-07-24",
+      "readable": true,
+      "used_for": "Durable pattern guidance cited as the source_url for the Entra ID application-security audit criterion (Protect identities and secrets)",
+      "report_version": "n/a"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/eliminate-identity-lateral-movement",
+      "title": "Eliminate identity lateral movement",
+      "type": "learn",
+      "retrieved_at": "2026-07-24",
+      "readable": true,
+      "used_for": "Durable pattern guidance cited as the source_url for the identity lateral-movement audit criteria (Protect identities and secrets)",
+      "report_version": "n/a"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-all-tenants-resources",
+      "title": "Secure all tenants and their resources",
+      "type": "learn",
+      "retrieved_at": "2026-07-24",
+      "readable": true,
+      "used_for": "Durable pattern guidance cited as the source_url for the tenant- and resource-isolation audit criteria (Protect tenants and isolate systems)",
+      "report_version": "n/a"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/remove-legacy-systems-that-risk-security",
+      "title": "Remove legacy systems that risk security",
+      "type": "learn",
+      "retrieved_at": "2026-07-24",
+      "readable": true,
+      "used_for": "Durable pattern guidance cited as the source_url for the legacy-system removal audit criterion (Protect engineering systems)",
+      "report_version": "n/a"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/network-isolation",
+      "title": "Network isolation",
+      "type": "learn",
+      "retrieved_at": "2026-07-24",
+      "readable": true,
+      "used_for": "Durable pattern guidance cited as the source_url for the network-isolation and segmentation audit criteria (Protect networks)",
+      "report_version": "n/a"
+    },
+    {
+      "url": "https://www.microsoft.com/en-us/trust-center/security/secure-future-initiative/patterns-and-practices",
+      "title": "Secure Future Initiative (SFI) Patterns and Practices",
+      "type": "trust-center",
+      "retrieved_at": "2026-07-24",
+      "readable": true,
+      "used_for": "Pattern catalog landing page and AI/agentic pattern cards",
+      "report_version": "n/a"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-whats-new",
+      "title": "What new in Microsoft Secure Future Initiative (SFI)",
+      "type": "learn",
+      "retrieved_at": "2026-07-24",
+      "readable": true,
+      "used_for": "Summary of newly introduced SFI patterns and platform updates",
+      "report_version": "July 2026"
+    },
+    {
+      "url": "https://www.microsoft.com/en-us/trust-center/security/secure-future-initiative/sfi-progress-report-july-2026",
+      "title": "SFI Progress Report July 2026",
+      "type": "trust-center",
+      "retrieved_at": "2026-07-24",
+      "readable": true,
+      "used_for": "July 2026 progress report landing page and report metadata",
+      "report_version": "2026-07"
+    },
+    {
+      "url": "https://www.microsoft.com/en-us/trust-center/security/secure-future-initiative/sfi-progress-report-november-2025",
+      "title": "SFI Progress Report November 2025",
+      "type": "trust-center",
+      "retrieved_at": "2026-07-24",
+      "readable": true,
+      "used_for": "November 2025 progress report landing page and report metadata",
+      "report_version": "2025-11"
+    },
+    {
+      "url": "https://cdn-dynmedia-1.microsoft.com/is/content/microsoftcorp/microsoft/bade/documents/products-and-services/en-us/security/July-2026-SFI-Progress-Report.pdf",
+      "title": "July 2026 SFI Progress Report PDF",
+      "type": "pdf-report",
+      "retrieved_at": "2026-07-24",
+      "readable": false,
+      "used_for": "July 2026 PDF report source referenced by the SFI pages",
+      "report_version": "2026-07"
+    },
+    {
+      "url": "https://cdn-dynmedia-1.microsoft.com/is/content/microsoftcorp/microsoft/bade/documents/products-and-services/en-us/security/sfi-nov-2025-executive-summary.pdf",
+      "title": "November 2025 SFI Executive Summary PDF",
+      "type": "pdf-report",
+      "retrieved_at": "2026-07-24",
+      "readable": false,
+      "used_for": "November 2025 PDF summary referenced by the SFI pages",
+      "report_version": "2025-11"
+    },
+    {
+      "url": "https://cdn-dynmedia-1.microsoft.com/is/content/microsoftcorp/microsoft/final/en-us/microsoft-brand/documents/sfi-april-2025-progress-report.pdf",
+      "title": "April 2025 SFI Progress Report PDF",
+      "type": "pdf-report",
+      "retrieved_at": "2026-07-24",
+      "readable": false,
+      "used_for": "April 2025 PDF report source referenced by the SFI pages",
+      "report_version": "2025-04"
+    },
+    {
+      "url": "https://cdn-dynmedia-1.microsoft.com/is/content/microsoftcorp/microsoft/final/en-us/microsoft-brand/documents/SFI_September_2024_progress_report.pdf",
+      "title": "September 2024 SFI Progress Report PDF",
+      "type": "pdf-report",
+      "retrieved_at": "2026-07-24",
+      "readable": false,
+      "used_for": "September 2024 PDF report source referenced by the SFI pages",
+      "report_version": "2024-09"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/threat-modeling-ai",
+      "title": "Complete AI threat modeling",
+      "type": "learn",
+      "retrieved_at": "2026-07-24",
+      "readable": true,
+      "used_for": "Pattern guidance for AI threat modeling",
+      "report_version": "July 2026"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/manage-agentic-risk",
+      "title": "Reduce autonomous agentic AI risk",
+      "type": "learn",
+      "retrieved_at": "2026-07-24",
+      "readable": true,
+      "used_for": "Pattern guidance for autonomous agentic AI risk",
+      "report_version": "July 2026"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-agentic-systems",
+      "title": "Secure autonomous agentic AI systems",
+      "type": "learn",
+      "retrieved_at": "2026-07-24",
+      "readable": true,
+      "used_for": "Pattern guidance for securing autonomous agentic AI systems",
+      "report_version": "July 2026"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/manage-agentic-memory-safety",
+      "title": "Manage AI memory safety in agentic systems",
+      "type": "learn",
+      "retrieved_at": "2026-07-24",
+      "readable": true,
+      "used_for": "Pattern guidance for memory safety in agentic systems",
+      "report_version": "July 2026"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/incident-response-ai-systems",
+      "title": "Incident response for AI systems",
+      "type": "learn",
+      "retrieved_at": "2026-07-24",
+      "readable": true,
+      "used_for": "Pattern guidance for incident response readiness in AI systems",
+      "report_version": "July 2026"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/observability-ai-systems",
+      "title": "Observability for Generative AI and agentic AI systems",
+      "type": "learn",
+      "retrieved_at": "2026-07-24",
+      "readable": true,
+      "used_for": "Pattern guidance for AI observability",
+      "report_version": "July 2026"
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/defend-indirect-prompt-injection",
+      "title": "Defend against indirect prompt injection attacks",
+      "type": "learn",
+      "retrieved_at": "2026-07-24",
+      "readable": true,
+      "used_for": "Pattern guidance for indirect prompt injection defense",
+      "report_version": "July 2026"
+    },
+    {
+      "url": "https://go.microsoft.com/fwlink/?linkid=2354671&clcid=0x409&culture=en-us&country=us",
+      "title": "Redirect to Complete AI threat modeling",
+      "type": "learn",
+      "retrieved_at": "2026-07-24",
+      "readable": true,
+      "used_for": "Resolved pattern card link to threat-modeling guidance",
+      "report_version": "July 2026"
+    },
+    {
+      "url": "https://go.microsoft.com/fwlink/?linkid=2356455&clcid=0x409&culture=en-us&country=us",
+      "title": "Redirect to Reduce autonomous agentic AI risk",
+      "type": "learn",
+      "retrieved_at": "2026-07-24",
+      "readable": true,
+      "used_for": "Resolved pattern card link to agentic-risk guidance",
+      "report_version": "July 2026"
+    },
+    {
+      "url": "https://go.microsoft.com/fwlink/?linkid=2356536&clcid=0x409&culture=en-us&country=us",
+      "title": "Redirect to Secure autonomous agentic AI systems",
+      "type": "learn",
+      "retrieved_at": "2026-07-24",
+      "readable": true,
+      "used_for": "Resolved pattern card link to agentic-system guidance",
+      "report_version": "July 2026"
+    },
+    {
+      "url": "https://www.microsoft.com/en-us/security/blog/2025/10/07/new-microsoft-secure-future-initiative-sfi-patterns-and-practices-practical-guides-to-strengthen-security/",
+      "title": "New Microsoft Secure Future Initiative (SFI) patterns and practices",
+      "type": "trust-center",
+      "retrieved_at": "2026-07-24",
+      "readable": true,
+      "used_for": "Security blog overview of the SFI patterns-and-practices release",
+      "report_version": "n/a"
+    },
+    {
+      "url": "https://www.microsoft.com/en-us/security/blog/2025/08/06/sharing-practical-guidance-launching-microsoft-secure-future-initiative-sfi-patterns-and-practices/",
+      "title": "Sharing practical guidance: launching Microsoft Secure Future Initiative patterns and practices",
+      "type": "trust-center",
+      "retrieved_at": "2026-07-24",
+      "readable": true,
+      "used_for": "Security blog companion post for the SFI patterns-and-practices launch",
+      "report_version": "n/a"
+    }
+  ]
+}

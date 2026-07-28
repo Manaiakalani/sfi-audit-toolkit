@@ -1,0 +1,119 @@
+{
+  "patterns": [
+    {
+      "title": "Complete AI threat modeling",
+      "pillar_slug": "monitor-and-detect-threats",
+      "pillar_id": 5,
+      "url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/threat-modeling-ai",
+      "summary": "Treat AI threat modeling as an ongoing engineering discipline that identifies and remediates risks across model, data, and agentic workflows before they become exploitable.",
+      "source_report": "July 2026"
+    },
+    {
+      "title": "Reduce autonomous agentic AI risk",
+      "pillar_slug": "monitor-and-detect-threats",
+      "pillar_id": 5,
+      "url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/manage-agentic-risk",
+      "summary": "Apply identity, access, monitoring, and governance controls to agentic systems so they operate with least privilege and clear oversight.",
+      "source_report": "July 2026"
+    },
+    {
+      "title": "Secure autonomous agentic AI systems",
+      "pillar_slug": "monitor-and-detect-threats",
+      "pillar_id": 5,
+      "url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-agentic-systems",
+      "summary": "Reduce risk in autonomous agents without stalling innovation by hardening execution boundaries, tool access, and trust assumptions.",
+      "source_report": "July 2026"
+    },
+    {
+      "title": "Manage AI memory safety in agentic systems",
+      "pillar_slug": "monitor-and-detect-threats",
+      "pillar_id": 5,
+      "url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/manage-agentic-memory-safety",
+      "summary": "Protect agentic systems from memory-safety failures by reducing exposure to unsafe memory usage, buffer errors, and implementation flaws.",
+      "source_report": "July 2026"
+    },
+    {
+      "title": "Incident response for AI systems",
+      "pillar_slug": "accelerate-response-and-remediation",
+      "pillar_id": 6,
+      "url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/incident-response-ai-systems",
+      "summary": "Prepare for AI-specific incidents with playbooks, evidence collection, and response workflows that address model misuse, agent actions, and downstream impact.",
+      "source_report": "July 2026"
+    },
+    {
+      "title": "Observability for Generative AI and agentic AI systems",
+      "pillar_slug": "monitor-and-detect-threats",
+      "pillar_id": 5,
+      "url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/observability-ai-systems",
+      "summary": "Build observability into AI systems to improve monitoring, understanding, and security across prompts, tool use, and agent actions.",
+      "source_report": "July 2026"
+    },
+    {
+      "title": "Defend against indirect prompt injection attacks",
+      "pillar_slug": "monitor-and-detect-threats",
+      "pillar_id": 5,
+      "url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/defend-indirect-prompt-injection",
+      "summary": "Use defense-in-depth controls to reduce the impact of prompt injection and other untrusted content that can alter model behavior.",
+      "source_report": "July 2026"
+    }
+  ],
+  "reports": [
+    {
+      "name": "SFI Progress Report — July 2026",
+      "date": "2026-07",
+      "url": "https://www.microsoft.com/en-us/trust-center/security/secure-future-initiative/sfi-progress-report-july-2026",
+      "summary": "The July 2026 report highlights new AI-focused SFI patterns and platform updates across Azure, Microsoft 365, Windows, and Microsoft Security, with emphasis on identity, confidential computing, secure defaults, and AI-enabled threat detection.",
+      "highlights": [
+        "New AI and agentic security patterns including threat modeling, observability, memory safety, agentic system hardening, and incident response.",
+        "Azure added hardware-backed trust and confidential computing, while Microsoft 365 and Windows deployed stronger secure-by-default controls and identity-first security.",
+        "Microsoft Security expanded AI-led vulnerability discovery, exposure management, and tenant governance capabilities."
+      ],
+      "new_patterns": [
+        "Manage AI memory safety in agentic systems",
+        "Incident response for AI systems",
+        "Complete AI threat modeling",
+        "Observability for Generative AI and agentic AI systems",
+        "Secure autonomous agentic AI systems",
+        "Reduce autonomous agentic AI risk",
+        "Defend against indirect prompt injection attacks"
+      ]
+    },
+    {
+      "name": "SFI Progress Report — November 2025",
+      "date": "2025-11",
+      "url": "https://www.microsoft.com/en-us/trust-center/security/secure-future-initiative/sfi-progress-report-november-2025",
+      "summary": "The November 2025 report documents continued progress across SFI’s six pillars with stronger tenant isolation, identity protections, network segmentation, and engineering-system hardening, while broadening secure-by-default capabilities.",
+      "highlights": [
+        "Identity protections, phishing-resistant MFA, and least-privilege controls continued to mature.",
+        "Tenant lifecycle governance and legacy-system retirement reduced dormant tenants and attack surface.",
+        "Network isolation and engineering-system controls moved from pilot to broader deployment."
+      ],
+      "new_patterns": []
+    },
+    {
+      "name": "SFI Progress Report — April 2025",
+      "date": "2025-04",
+      "url": "https://cdn-dynmedia-1.microsoft.com/is/content/microsoftcorp/microsoft/final/en-us/microsoft-brand/documents/sfi-april-2025-progress-report.pdf",
+      "summary": "The April 2025 report describes the early SFI rollout as a company-wide security transformation, with major gains in culture, governance, training, identity protection, vulnerability management, and secure-by-default engineering.",
+      "highlights": [
+        "Security was embedded into employee performance expectations and training across the company.",
+        "Microsoft expanded secure-by-design practices and accelerated vulnerability remediation.",
+        "The report highlighted significant progress in identity protection, tenant cleanup, and threat detection."
+      ],
+      "new_patterns": []
+    },
+    {
+      "name": "SFI Progress Report — September 2024",
+      "date": "2024-09",
+      "url": "https://cdn-dynmedia-1.microsoft.com/is/content/microsoftcorp/microsoft/final/en-us/microsoft-brand/documents/SFI_September_2024_progress_report.pdf",
+      "summary": "The September 2024 report marks the early SFI milestones of the initiative, focusing on governance, employee security accountability, hardened engineering practices, and rapid progress across identity, tenant, network, and response objectives.",
+      "highlights": [
+        "Microsoft instituted stronger governance with a new security council and deputy CISOs across engineering divisions.",
+        "The report emphasized security training, internal accountability, and the central role of zero trust principles.",
+        "Early progress was visible in identity protection, tenant cleanup, logging, and accelerated response workflows."
+      ],
+      "new_patterns": []
+    }
+  ],
+  "_fetch_notes": "The Learn what's-new page provided the clearest list of newly introduced SFI patterns; the trust-center patterns catalog page exposed the AI/agentic pattern cards and resolved to Learn guidance pages. PDF reports were not fully readable in plain-text form through web_fetch, so the April 2025 and September 2024 summaries use published summaries and the official report metadata. The named Patterns & Practices catalog launched in 2025 (announced in the August and October 2025 security blogs), so the September 2024, April 2025, and November 2025 reports intentionally carry an empty new_patterns array — they predate, or precede the AI/agentic additions of, the named-pattern catalog rather than lacking data."
+}

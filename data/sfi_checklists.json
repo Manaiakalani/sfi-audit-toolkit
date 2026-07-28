@@ -1,0 +1,1058 @@
+{
+  "version": "1.0.0",
+  "generated_at": "2026-07-24",
+  "checklist": [
+    {
+      "id": "protect-identities-and-secrets/phishing-resistant-mfa-enforced",
+      "pillar_id": 1,
+      "pillar_slug": "protect-identities-and-secrets",
+      "requirement": "All human identities, especially privileged and external identities, must use phishing-resistant authentication, with legacy authentication and weak MFA methods blocked by policy.",
+      "severity": "critical",
+      "how_to_verify": "Review exported Microsoft Entra authentication-method and Conditional Access policies, confirm a phishing-resistant authentication strength applies to every admin and user scope, inspect exclusions, and sample sign-in logs to verify successful sign-ins satisfy that strength.",
+      "signals": [
+        "azuread_conditional_access_policy",
+        "authenticationStrength",
+        "phishingResistant",
+        "FIDO2",
+        "passkey",
+        "WindowsHelloForBusiness",
+        "certificateBasedAuthentication",
+        "TemporaryAccessPass"
+      ],
+      "anti_signals": [
+        "legacy authentication allowed",
+        "SMS OTP accepted for administrator",
+        "voice call MFA",
+        "push notification without number matching",
+        "Conditional Access exclusion: All users",
+        "grantControls: mfa without authentication strength"
+      ],
+      "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/phishing-resistant-mfa"
+    },
+    {
+      "id": "protect-identities-and-secrets/no-hardcoded-or-committed-secrets",
+      "pillar_id": 1,
+      "pillar_slug": "protect-identities-and-secrets",
+      "requirement": "Source, configuration, tests, examples, artifacts, and Git history must not contain usable passwords, API keys, private keys, tokens, connection strings, or client secrets.",
+      "severity": "critical",
+      "how_to_verify": "Run repository and history secret scanning, inspect tracked .env and credential files, triage high-entropy findings, verify test fixtures are inert, and confirm every real finding was revoked rather than merely deleted.",
+      "signals": [
+        "detect-secrets",
+        "gitleaks.toml",
+        "trufflehog",
+        "GitHub secret scanning",
+        "KeyVault reference",
+        "process.env.",
+        "DefaultAzureCredential"
+      ],
+      "anti_signals": [
+        "AKIA[0-9A-Z]{16}",
+        "-----BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY-----",
+        "(?i)(client_secret|password|api[_-]?key)\\s*[:=]\\s*[\"'][^\"']+[\"']",
+        "AccountKey=",
+        "SharedAccessSignature=",
+        "tracked .env",
+        "credentials.json"
+      ],
+      "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-adoption"
+    },
+    {
+      "id": "protect-identities-and-secrets/managed-and-short-lived-workload-identities",
+      "pillar_id": 1,
+      "pillar_slug": "protect-identities-and-secrets",
+      "requirement": "Workloads, automation, and AI agents must use managed identities or workload identity federation with narrowly scoped, short-lived tokens; each agent must have accountable ownership and bounded permissions.",
+      "severity": "critical",
+      "how_to_verify": "Inspect application and IaC authentication paths, CI OIDC configuration, federated credential subject and audience restrictions, managed identity assignments, token lifetimes, agent ownership metadata, and ensure no fallback client-secret path exists.",
+      "signals": [
+        "type: SystemAssigned",
+        "Microsoft.ManagedIdentity/userAssignedIdentities",
+        "DefaultAzureCredential",
+        "ManagedIdentityCredential",
+        "WorkloadIdentityCredential",
+        "federatedIdentityCredentials",
+        "permissions: id-token: write",
+        "AZURE_FEDERATED_TOKEN_FILE",
+        "agent owner",
+        "agent sponsor"
+      ],
+      "anti_signals": [
+        "AZURE_CLIENT_SECRET",
+        "clientSecret:",
+        "servicePrincipalPassword",
+        "passwordCredentials",
+        "long-lived bearer token",
+        "agent with wildcard tool permissions",
+        "unowned agent identity"
+      ],
+      "source_url": "https://www.microsoft.com/en-us/trust-center/security/secure-future-initiative/patterns-and-practices"
+    },
+    {
+      "id": "protect-identities-and-secrets/secrets-and-keys-in-hardened-vaults",
+      "pillar_id": 1,
+      "pillar_slug": "protect-identities-and-secrets",
+      "requirement": "Necessary secrets and cryptographic keys must be held in a centralized vault with least-privilege RBAC, private network access, audit logging, recovery protections, hardware protection for high-value keys, and separation by tenant or environment.",
+      "severity": "high",
+      "how_to_verify": "Inspect Key Vault or managed HSM IaC and runtime exports for RBAC, firewall/private endpoints, purge protection, soft delete, diagnostics, SKU/key type, role scopes, and distinct production/non-production key stores.",
+      "signals": [
+        "Microsoft.KeyVault/vaults",
+        "Microsoft.KeyVault/managedHSMs",
+        "enableRbacAuthorization: true",
+        "publicNetworkAccess: Disabled",
+        "privateEndpointConnections",
+        "enablePurgeProtection: true",
+        "diagnosticSettings",
+        "kty: RSA-HSM",
+        "key_ops"
+      ],
+      "anti_signals": [
+        "publicNetworkAccess: Enabled",
+        "defaultAction: Allow",
+        "enableRbacAuthorization: false",
+        "enablePurgeProtection: false",
+        "vault access granted to all principals",
+        "same signing key URI in dev and prod"
+      ],
+      "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-adoption"
+    },
+    {
+      "id": "protect-identities-and-secrets/automated-credential-and-key-rotation",
+      "pillar_id": 1,
+      "pillar_slug": "protect-identities-and-secrets",
+      "requirement": "Secrets, certificates, signing keys, and emergency credentials must have bounded lifetimes and automated issuance, rotation, revocation, and expiry monitoring.",
+      "severity": "high",
+      "how_to_verify": "Review vault rotation policies, certificate lifetime actions, automation workflows, expiry alerts, application overlap handling, and evidence from a recent successful rotation or revocation test.",
+      "signals": [
+        "rotationPolicy",
+        "lifetimeActions",
+        "trigger: timeAfterCreate",
+        "trigger: timeBeforeExpiry",
+        "expiresOn",
+        "KeyNearExpiry",
+        "SecretNearExpiry",
+        "rotate",
+        "revoke"
+      ],
+      "anti_signals": [
+        "expiresOn: null",
+        "no_expiry",
+        "certificate validity > 397 days",
+        "token lifetime measured in years",
+        "manual-only rotation runbook",
+        "never rotate"
+      ],
+      "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-adoption"
+    },
+    {
+      "id": "protect-identities-and-secrets/standard-sdk-and-complete-token-validation",
+      "pillar_id": 1,
+      "pillar_slug": "protect-identities-and-secrets",
+      "requirement": "Applications must use a supported identity SDK and validate token signature, issuer, audience, lifetime, scopes or roles, tenant, and revocation or state where supported; custom JWT parsing must not make authorization decisions.",
+      "severity": "critical",
+      "how_to_verify": "Inspect dependency manifests and authentication middleware, trace each token-consuming endpoint, confirm validation parameters and authorization checks, and test wrong issuer, audience, signature, expired, revoked, and cross-tenant tokens.",
+      "signals": [
+        "Microsoft.Identity.Web",
+        "Microsoft.Identity.Client",
+        "@azure/msal-browser",
+        "@azure/msal-node",
+        "msal",
+        "validateIssuer",
+        "validateAudience",
+        "ValidateLifetime",
+        "xms_cc"
+      ],
+      "anti_signals": [
+        "jwt.decode(",
+        "verify_signature: false",
+        "ValidateIssuer = false",
+        "ValidateAudience = false",
+        "RequireSignedTokens = false",
+        "manual Base64Url token parsing",
+        "authorization based only on decoded claims"
+      ],
+      "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/adopt-standard-sdk-identity"
+    },
+    {
+      "id": "protect-identities-and-secrets/least-privilege-jit-privileged-access",
+      "pillar_id": 1,
+      "pillar_slug": "protect-identities-and-secrets",
+      "requirement": "Human and workload permissions must be narrowly scoped, with privileged access eligible rather than permanently active and activated just in time with approval, MFA, expiry, and auditability.",
+      "severity": "high",
+      "how_to_verify": "Enumerate IAM and directory role assignments, compare permissions with documented needs, inspect PIM eligibility and activation settings, identify permanent high-privilege grants, and test that expired elevation is removed.",
+      "signals": [
+        "Privileged Identity Management",
+        "roleEligibilityScheduleRequests",
+        "eligibleAssignment",
+        "justInTimeAccessPolicies",
+        "activationDuration",
+        "approvalRequired",
+        "roleDefinitionId"
+      ],
+      "anti_signals": [
+        "permanent Global Administrator",
+        "Owner at /subscriptions",
+        "(?i)\\bactions['\"]?\\s*:\\s*\\[\\s*['\"]\\*['\"]\\s*\\]",
+        "(?i)\\bdataactions['\"]?\\s*:\\s*\\[\\s*['\"]\\*['\"]\\s*\\]",
+        "standing admin service principal",
+        "PIM activation without MFA or expiry"
+      ],
+      "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-adoption"
+    },
+    {
+      "id": "protect-identities-and-secrets/identity-and-vault-audit-monitoring",
+      "pillar_id": 1,
+      "pillar_slug": "protect-identities-and-secrets",
+      "requirement": "Authentication, authorization, token, consent, privileged-role, workload-identity, and vault access events must be centrally logged, correlated, retained, and monitored for anomalies and misuse.",
+      "severity": "high",
+      "how_to_verify": "Inspect diagnostic settings and SIEM ingestion for sign-in, service-principal sign-in, audit, risky-user, PIM, and Key Vault logs; verify alert rules, retention, immutable access controls, and test-event visibility.",
+      "signals": [
+        "SignInLogs",
+        "ServicePrincipalSignInLogs",
+        "AuditLogs",
+        "RiskyUsers",
+        "AADManagedIdentitySignInLogs",
+        "AuditEvent",
+        "AzureDiagnostics",
+        "Microsoft Sentinel",
+        "diagnosticSettings"
+      ],
+      "anti_signals": [
+        "logsEnabled: false",
+        "retentionInDays: 0",
+        "PIM audit disabled",
+        "Key Vault diagnostics absent",
+        "sign-in logs excluded from SIEM",
+        "alert suppression without expiry"
+      ],
+      "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-overview"
+    },
+    {
+      "id": "protect-identities-and-secrets/hardware-backed-partitioned-signing-keys",
+      "pillar_id": 1,
+      "pillar_slug": "protect-identities-and-secrets",
+      "requirement": "High-value token-signing and platform keys must be non-exportable, hardware-backed or confidential-computing protected, automatically rotated, and partitioned so one key cannot cross datacenter, tenant, environment, or service trust boundaries.",
+      "severity": "critical",
+      "how_to_verify": "Review signing architecture, key metadata and attestation, export policy, HSM or confidential-computing configuration, partition identifiers, rotation evidence, and prove production and non-production cannot use one another's keys.",
+      "signals": [
+        "Managed HSM",
+        "RSA-HSM",
+        "hardwareProtected",
+        "non-exportable",
+        "Azure Confidential Computing",
+        "attestation",
+        "split keys",
+        "per-tenant key",
+        "per-environment key"
+      ],
+      "anti_signals": [
+        "exportable signing private key",
+        "signing key in repository",
+        "shared signing key across tenants",
+        "shared signing key across prod and test",
+        "manual signing-key rotation",
+        "software key for high-value token signing"
+      ],
+      "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-whats-new"
+    },
+    {
+      "id": "protect-identities-and-secrets/crypto-agile-quantum-safe-pki-readiness",
+      "pillar_id": 1,
+      "pillar_slug": "protect-identities-and-secrets",
+      "requirement": "The project must inventory cryptographic dependencies and certificates, avoid obsolete algorithms and protocols, centralize configurable crypto policy, and maintain a tested migration plan for post-quantum PKI and trust chains.",
+      "severity": "medium",
+      "how_to_verify": "Search code and configuration for algorithms, key sizes, TLS versions, pinned certificates, and custom crypto; inspect certificate inventory and expiry automation; review a versioned transition plan and tests that permit algorithm replacement without protocol redesign.",
+      "signals": [
+        "TLS1.2",
+        "TLS1.3",
+        "minimumTlsVersion",
+        "ES256",
+        "PS256",
+        "certificate inventory",
+        "crypto-agility",
+        "post-quantum",
+        "algorithm policy"
+      ],
+      "anti_signals": [
+        "(?i)\\bMD5\\b",
+        "(?i)\\bSHA-?1\\b",
+        "RSA 1024",
+        "\\bDES\\b",
+        "\\b3DES\\b",
+        "TLSv1.0",
+        "TLSv1.1",
+        "hardcoded cryptographic algorithm throughout business logic"
+      ],
+      "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-whats-new"
+    },
+    {
+      "id": "protect-tenants-and-isolate-systems/complete-tenant-inventory-and-ownership",
+      "pillar_id": 2,
+      "pillar_slug": "protect-tenants-and-isolate-systems",
+      "requirement": "Every production, productivity, auxiliary, acquired, test, partner, ephemeral, and shadow tenant and its subscriptions, applications, commerce accounts, and critical resources must be inventoried, classified, and assigned accountable owners.",
+      "severity": "high",
+      "how_to_verify": "Reconcile the authoritative inventory against billing, subscription, sign-in, audit, app-consent, DNS, CI/CD, and cloud-discovery data; sample records for purpose, class, owner, risk, creation date, expiration, and disposition.",
+      "signals": [
+        "tenant-inventory",
+        "tenantId",
+        "subscriptionId",
+        "businessPurpose",
+        "environmentClassification",
+        "expiresOn",
+        "Azure Resource Graph",
+        "CMDB"
+      ],
+      "anti_signals": [
+        "unknown tenant",
+        "owner: null",
+        "unclassified",
+        "shadow tenant",
+        "subscription without owner tags",
+        "tenant ID present in deployment config but absent from inventory"
+      ],
+      "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-all-tenants-resources"
+    },
+    {
+      "id": "protect-tenants-and-isolate-systems/production-nonproduction-tenant-separation",
+      "pillar_id": 2,
+      "pillar_slug": "protect-tenants-and-isolate-systems",
+      "requirement": "Production and non-production environments must use distinct tenant or equivalent hard isolation boundaries, identities, app registrations, credentials, vaults, administration paths, and data paths.",
+      "severity": "critical",
+      "how_to_verify": "Map environment tenant IDs, subscriptions, identity providers, service principals, vaults, network paths, and pipeline deployment identities; test that a non-production identity and credential cannot authenticate to or deploy into production.",
+      "signals": [
+        "prodTenantId",
+        "nonProdTenantId",
+        "separate subscriptions",
+        "environment-specific managed identity",
+        "environment-specific Key Vault",
+        "AzureADMyOrg",
+        "production boundary",
+        "ephemeral tenant"
+      ],
+      "anti_signals": [
+        "same tenantId for dev and prod",
+        "shared service principal credential across environments",
+        "shared administrator account",
+        "test app registration with production role",
+        "non-production pipeline can deploy to production",
+        "shared customer-data path"
+      ],
+      "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-all-tenants-resources"
+    },
+    {
+      "id": "protect-tenants-and-isolate-systems/cross-tenant-deny-by-default",
+      "pillar_id": 2,
+      "pillar_slug": "protect-tenants-and-isolate-systems",
+      "requirement": "Cross-tenant access, guest invitations, service-principal creation, and multitenant application authentication must be denied by default and enabled only for named tenants, identities, applications, directions, and purposes through approved, logged policy.",
+      "severity": "critical",
+      "how_to_verify": "Inspect inbound and outbound cross-tenant access settings, tenant restrictions, B2B collaboration and direct-connect settings, app sign-in audiences, allowed-tenant lists, guest invitation policy, exceptions, approvals, and logs; attempt authentication from an unapproved tenant.",
+      "signals": [
+        "crossTenantAccessPolicy",
+        "tenantRestrictions",
+        "allowedTenants",
+        "accessType: blocked",
+        "AzureADMyOrg",
+        "b2bCollaboration",
+        "explicit tenant allowlist",
+        "admin approval"
+      ],
+      "anti_signals": [
+        "(?i)\\ballowedtenants['\"]?\\s*:\\s*\\[\\s*['\"]\\*['\"]\\s*\\]",
+        "(?i)\\badditionallyallowedtenants['\"]?\\s*:\\s*\\[\\s*['\"]\\*['\"]\\s*\\]",
+        "authority: https://login.microsoftonline.com/common",
+        "signInAudience: AzureADMultipleOrgs without allowlist",
+        "any user can invite guests",
+        "default inbound trust allowed"
+      ],
+      "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/eliminate-identity-lateral-movement"
+    },
+    {
+      "id": "protect-tenants-and-isolate-systems/tenant-security-baselines-policy-as-code",
+      "pillar_id": 2,
+      "pillar_slug": "protect-tenants-and-isolate-systems",
+      "requirement": "Every tenant class must receive a versioned, centrally governed baseline that enforces strong authentication, blocks legacy authentication, restricts external access, requires compliant devices where appropriate, and continuously reports drift.",
+      "severity": "high",
+      "how_to_verify": "Review baseline definitions and deployment automation, compare current tenant policy exports with the approved version, inspect exceptions and expiry, and confirm policy enforcement and drift alerts cover all inventoried tenants.",
+      "signals": [
+        "securityDefaultsEnabled",
+        "azuread_conditional_access_policy",
+        "block legacy authentication",
+        "require compliant device",
+        "Azure Policy initiative",
+        "Microsoft 365 Lighthouse baseline",
+        "baselineVersion",
+        "drift detection"
+      ],
+      "anti_signals": [
+        "security defaults disabled with no Conditional Access",
+        "legacy authentication allowed",
+        "baseline exception without expiry",
+        "tenant omitted from policy deployment",
+        "report-only policy indefinitely",
+        "manual baseline configuration only"
+      ],
+      "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-all-tenants-resources"
+    },
+    {
+      "id": "protect-tenants-and-isolate-systems/continuous-least-privilege-and-dual-control",
+      "pillar_id": 2,
+      "pillar_slug": "protect-tenants-and-isolate-systems",
+      "requirement": "Tenant and application privileges must be continuously reduced to necessary scope, elevated through time-bound PIM/JIT workflows, and protected by dual authorization for emergency or boundary-crossing access.",
+      "severity": "critical",
+      "how_to_verify": "Enumerate directory, Azure, Graph, and app-role grants; identify standing privileged users and service principals; review PIM and emergency-access workflows for approval, two-person control, expiry, alerts, and periodic access reviews.",
+      "signals": [
+        "roleEligibilityScheduleRequests",
+        "Privileged Identity Management",
+        "activationDuration",
+        "approvalRequired",
+        "Dual-Key Break Glass",
+        "two-person approval",
+        "accessReview",
+        "just-enough-access"
+      ],
+      "anti_signals": [
+        "permanent Global Administrator",
+        "standing break-glass account",
+        "Owner at tenant root",
+        "Directory.ReadWrite.All without justification",
+        "RoleManagement.ReadWrite.Directory without approval",
+        "emergency access by one person"
+      ],
+      "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-whats-new"
+    },
+    {
+      "id": "protect-tenants-and-isolate-systems/entra-application-governance",
+      "pillar_id": 2,
+      "pillar_slug": "protect-tenants-and-isolate-systems",
+      "requirement": "Microsoft Entra applications and service principals must have restricted creation, accountable owners, explicit assignment, minimal API permissions, governed consent, approved tenant audiences, secure credentials, Conditional Access, and automated stale-app retirement.",
+      "severity": "critical",
+      "how_to_verify": "Inventory app registrations and service principals, flag ownerless or inactive objects, inspect sign-in audience, appRoleAssignmentRequired, Graph permissions, consent grants, credentials, Conditional Access, allowed tenants, last use, and deletion or expiration workflows.",
+      "signals": [
+        "appRoleAssignmentRequired: true",
+        "requiredResourceAccess",
+        "admin consent workflow",
+        "signInAudience: AzureADMyOrg",
+        "allowedTenants",
+        "Conditional Access",
+        "managed identity",
+        "lastSignInActivity"
+      ],
+      "anti_signals": [
+        "user consent unrestricted",
+        "ownerless app registration",
+        "AzureADandPersonalMicrosoftAccount without requirement",
+        "unused service principal with active credentials",
+        "Mail.ReadWrite application permission without justification",
+        "Directory.ReadWrite.All",
+        "long-lived client secret"
+      ],
+      "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/higher-security-microsoft-entra-id-apps"
+    },
+    {
+      "id": "protect-tenants-and-isolate-systems/managed-compliant-admin-devices",
+      "pillar_id": 2,
+      "pillar_slug": "protect-tenants-and-isolate-systems",
+      "requirement": "Privileged and production access must originate only from managed, healthy, compliant, locked-down administrative endpoints that are separated from everyday productivity use.",
+      "severity": "high",
+      "how_to_verify": "Inspect Conditional Access device filters and privileged-user scopes, Intune compliance and endpoint-security baselines, PAW/SAW inventory, admin network paths, exclusions, and sign-in logs; verify an unmanaged test device is blocked.",
+      "signals": [
+        "device.isCompliant",
+        "device.trustType",
+        "requireCompliantDevice",
+        "Secure Admin Workstation",
+        "Privileged Access Workstation",
+        "Intune compliance policy",
+        "deviceFilter",
+        "locked-down endpoint"
+      ],
+      "anti_signals": [
+        "admin access from unmanaged device",
+        "privileged users excluded from device policy",
+        "personal device allowed for production administration",
+        "shared admin workstation",
+        "compliance control in report-only mode",
+        "browser-only exception without expiry"
+      ],
+      "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-all-tenants-resources"
+    },
+    {
+      "id": "protect-tenants-and-isolate-systems/tenant-lifecycle-and-legacy-retirement",
+      "pillar_id": 2,
+      "pillar_slug": "protect-tenants-and-isolate-systems",
+      "requirement": "Tenant and application creation must be governed and attributable; ephemeral environments must expire by default within 90 days; unused, insecure, unsanctioned, and legacy tenants and platforms must be quarantined, modernized, or automatically retired.",
+      "severity": "high",
+      "how_to_verify": "Review tenant creation approvals, owner attribution, expiration and extension policy, automated usage checks and deletion workflows, quarantine controls, recent retirements, and scan IaC and APIs for classic Azure Service Manager resources or legacy authentication.",
+      "signals": [
+        "expiresOn",
+        "90-day expiration",
+        "creation approval",
+        "owner attribution",
+        "scream test",
+        "quarantine",
+        "automated retirement",
+        "Azure Resource Manager",
+        "Microsoft.Resources/deployments"
+      ],
+      "anti_signals": [
+        "Microsoft.ClassicCompute",
+        "Microsoft.ClassicNetwork",
+        "management certificate",
+        "management.core.windows.net",
+        "ephemeral tenant without expiration",
+        "unused tenant with recent privileged credentials",
+        "unrestricted tenant creation"
+      ],
+      "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/remove-legacy-systems-that-risk-security"
+    },
+    {
+      "id": "protect-tenants-and-isolate-systems/cross-boundary-credential-isolation",
+      "pillar_id": 2,
+      "pillar_slug": "protect-tenants-and-isolate-systems",
+      "requirement": "Credentials, certificates, signing keys, managed identities, app registrations, and token-issuance trust must be unique to and constrained within their tenant, cloud, and environment boundary.",
+      "severity": "critical",
+      "how_to_verify": "Compare credential and key identifiers across environments, inspect federated credential issuer/subject/audience, tenant-specific authority and allowed-tenant configuration, vault separation, and test that non-production credentials fail against production.",
+      "signals": [
+        "environment-specific clientId",
+        "environment-specific Key Vault URI",
+        "AZURE_TENANT_ID",
+        "federatedIdentityCredentials",
+        "subject",
+        "audiences: api://AzureADTokenExchange",
+        "allowedTenants",
+        "per-tenant certificate"
+      ],
+      "anti_signals": [
+        "same client secret in prod and nonprod",
+        "same signing certificate across tenants",
+        "(?i)\\badditionallyallowedtenants['\"]?\\s*:\\s*\\[\\s*['\"]\\*['\"]\\s*\\]",
+        "common authority for tenant-bound service",
+        "shared service principal across cloud boundaries",
+        "token accepted without tenant claim check"
+      ],
+      "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/eliminate-identity-lateral-movement"
+    },
+    {
+      "id": "protect-tenants-and-isolate-systems/tenant-boundary-violation-monitoring",
+      "pillar_id": 2,
+      "pillar_slug": "protect-tenants-and-isolate-systems",
+      "requirement": "Cross-tenant sign-ins, guest invitations, app consent, service-principal changes, privilege changes, blocked boundary access, and dormant-account activity must be centrally logged and monitored with actionable detections.",
+      "severity": "high",
+      "how_to_verify": "Trace these event classes from each tenant into the SIEM, inspect detection rules and response ownership, verify retention and investigator access, and generate a safe test event such as a blocked sign-in from an unapproved tenant.",
+      "signals": [
+        "CrossTenantAccessActivity",
+        "SignInLogs",
+        "ServicePrincipalSignInLogs",
+        "AuditLogs",
+        "Invitation",
+        "Consent to application",
+        "Add member to role",
+        "Microsoft Sentinel analytics rule",
+        "access review"
+      ],
+      "anti_signals": [
+        "tenant logs not centralized",
+        "guest invitation alerts absent",
+        "app consent not monitored",
+        "blocked cross-tenant attempts discarded",
+        "dormant accounts excluded from review",
+        "audit retention disabled"
+      ],
+      "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-all-tenants-resources"
+    },
+    {
+      "id": "protect-networks/complete-network-asset-inventory",
+      "pillar_id": 3,
+      "pillar_slug": "protect-networks",
+      "requirement": "All cloud, on-premises, hybrid, and edge network assets and relationships must be represented in a current inventory with owner, environment, purpose, exposure, lifecycle, and enforced baseline status.",
+      "severity": "high",
+      "how_to_verify": "Reconcile IaC and cloud inventory against VNets, subnets, peerings, route tables, NSGs, firewalls, load balancers, public IPs, private endpoints, gateways, DNS, Kubernetes networks, physical devices, and flow telemetry; sample records for ownership and freshness.",
+      "signals": [
+        "network-inventory",
+        "Microsoft.Network/virtualNetworks",
+        "networkSecurityGroups",
+        "routeTables",
+        "azureFirewalls",
+        "publicIPAddresses",
+        "privateEndpoints",
+        "owner tag",
+        "environment tag",
+        "Azure Resource Graph"
+      ],
+      "anti_signals": [
+        "public IP absent from inventory",
+        "owner: null",
+        "unmanaged network device",
+        "unknown peering",
+        "manual firewall outside source control",
+        "stale inventory timestamp"
+      ],
+      "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-whats-new"
+    },
+    {
+      "id": "protect-networks/deny-by-default-network-segmentation",
+      "pillar_id": 3,
+      "pillar_slug": "protect-networks",
+      "requirement": "Networks must be macro- and microsegmented by trust, environment, workload, data sensitivity, and administration plane, with deny-by-default east-west controls and only documented least-privilege flows allowed.",
+      "severity": "critical",
+      "how_to_verify": "Review architecture and IaC for subnet and workload boundaries, NSG/ACL/firewall and Kubernetes or service-mesh policy, default-deny behavior, rule ownership and expiry; use reachability analysis and tests to prove unauthorized east-west paths fail.",
+      "signals": [
+        "securityRules",
+        "access: Deny",
+        "DenyAllInbound",
+        "DenyAllOutBound",
+        "kind: NetworkPolicy",
+        "(?i)policytypes\\s*:\\s*\\[[^\\]]*egress",
+        "namespaceSelector",
+        "AuthorizationPolicy",
+        "microsegmentation",
+        "network security perimeter"
+      ],
+      "anti_signals": [
+        "allow 0.0.0.0/0 inbound",
+        "sourceAddressPrefix: * with access Allow",
+        "destinationAddressPrefix: * with access Allow",
+        "flat network",
+        "Kubernetes namespace without default-deny policy",
+        "any-to-any east-west rule",
+        "prod and dev on unrestricted subnet"
+      ],
+      "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/network-isolation"
+    },
+    {
+      "id": "protect-networks/private-management-and-paas-access",
+      "pillar_id": 3,
+      "pillar_slug": "protect-networks",
+      "requirement": "Management interfaces and sensitive PaaS resources must use private endpoints or protected management services, with public network access disabled and administrative access authorized just in time.",
+      "severity": "critical",
+      "how_to_verify": "Enumerate public IPs and PaaS public endpoints, inspect Private Link, network security perimeter, Bastion and JIT configuration, firewall defaults and DNS resolution, and attempt access from an untrusted external network.",
+      "signals": [
+        "publicNetworkAccess: Disabled",
+        "privateEndpointConnections",
+        "Microsoft.Network/privateEndpoints",
+        "Microsoft.Network/bastionHosts",
+        "justInTimeAccessPolicies",
+        "networkAcls.defaultAction: Deny",
+        "privatelink.",
+        "disablePasswordAuthentication: true"
+      ],
+      "anti_signals": [
+        "publicNetworkAccess: Enabled",
+        "0.0.0.0/0 to port 22",
+        "0.0.0.0/0 to port 3389",
+        "VM public IP for administration",
+        "PaaS firewall default Allow",
+        "Allow Azure services bypass without justification"
+      ],
+      "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/network-isolation"
+    },
+    {
+      "id": "protect-networks/identity-aware-encrypted-connectivity",
+      "pillar_id": 3,
+      "pillar_slug": "protect-networks",
+      "requirement": "Every connection must be authenticated and authorized from identity, device, workload, and risk context and encrypted with modern protocols; network location alone must never establish trust.",
+      "severity": "high",
+      "how_to_verify": "Trace representative user, service, and admin connections through ZTNA, proxy, gateway, mesh, and application policies; inspect mTLS/TLS settings and identity bindings; test anonymous, wrong-identity, noncompliant-device, and obsolete-protocol access.",
+      "signals": [
+        "Zero Trust Network Access",
+        "Global Secure Access",
+        "Conditional Access",
+        "PeerAuthentication",
+        "mtls.mode: STRICT",
+        "minimumTlsVersion: TLS1_2",
+        "clientCertificateMode",
+        "workload identity",
+        "identity-aware proxy"
+      ],
+      "anti_signals": [
+        "trust based only on source subnet",
+        "HTTP backend for sensitive traffic",
+        "TLSv1.0",
+        "TLSv1.1",
+        "sslPolicy: legacy",
+        "shared VPN grants full network access",
+        "anonymous internal service access"
+      ],
+      "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/network-isolation"
+    },
+    {
+      "id": "protect-networks/strict-default-deny-egress",
+      "pillar_id": 3,
+      "pillar_slug": "protect-networks",
+      "requirement": "Workload and endpoint egress must be denied by default and restricted through centrally governed firewalls, proxies, routes, FQDN or service-tag allowlists, and private endpoints, with approved destinations and logged exceptions.",
+      "severity": "critical",
+      "how_to_verify": "Inspect subnet routing, firewall application and network rules, Kubernetes egress policies, proxy settings, default outbound access, DNS controls, exception owners and expiry; test an unlisted internet destination from each trust zone.",
+      "signals": [
+        "defaultOutboundAccess: false",
+        "AzureFirewall",
+        "firewallPolicies",
+        "applicationRuleCollections",
+        "fullyQualifiedDomainNames",
+        "serviceTags",
+        "nextHopType: VirtualAppliance",
+        "policyTypes: Egress",
+        "egress gateway",
+        "private endpoint"
+      ],
+      "anti_signals": [
+        "allow 0.0.0.0/0 egress",
+        "(?i)\\bdestinationaddresses['\"]?\\s*:\\s*\\[\\s*['\"]\\*['\"]\\s*\\]",
+        "unrestricted internet egress",
+        "default outbound access enabled",
+        "Kubernetes egress omitted",
+        "direct internet route bypasses firewall",
+        "egress exception without owner or expiry"
+      ],
+      "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/network-isolation"
+    },
+    {
+      "id": "protect-networks/centralized-layered-firewall-policy",
+      "pillar_id": 3,
+      "pillar_slug": "protect-networks",
+      "requirement": "Internet, inter-segment, and high-value resource boundaries must use centrally managed, layered firewall and security-admin policy with threat intelligence, WAF, and DDoS controls where applicable.",
+      "severity": "high",
+      "how_to_verify": "Review Azure Firewall or equivalent policies, Virtual Network Manager security admin rules, WAF and DDoS plans, threat-intelligence mode, policy inheritance and bypasses; compare deployed rules with the approved baseline and test a known-safe blocked indicator.",
+      "signals": [
+        "Microsoft.Network/firewallPolicies",
+        "threatIntelMode: Deny",
+        "threatIntelMode: Alert",
+        "Microsoft.Network/networkManagers/securityAdminConfigurations",
+        "WebApplicationFirewall",
+        "DDoSProtectionPlans",
+        "security admin rules",
+        "policy inheritance"
+      ],
+      "anti_signals": [
+        "threatIntelMode: Off",
+        "firewall bypass: *",
+        "WAF disabled on public web application",
+        "DetectionOnly indefinitely",
+        "local rule overrides central deny",
+        "unreviewed broad service-tag allow"
+      ],
+      "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/network-isolation"
+    },
+    {
+      "id": "protect-networks/continuous-network-session-evaluation",
+      "pillar_id": 3,
+      "pillar_slug": "protect-networks",
+      "requirement": "Long-lived user and workload network sessions must be continuously reevaluated against identity, device, location, and risk state and terminated or restricted when trust changes.",
+      "severity": "high",
+      "how_to_verify": "Inspect Conditional Access session controls, CAE-capable client and resource configuration, ZTNA policy, token challenge handling, revocation propagation, and session lifetime; test user disablement or risk escalation during an active session.",
+      "signals": [
+        "Continuous Access Evaluation",
+        "xms_cc",
+        "signInFrequency",
+        "persistentBrowser",
+        "Conditional Access session controls",
+        "riskLevel",
+        "device compliance",
+        "session revocation"
+      ],
+      "anti_signals": [
+        "never-expiring network session",
+        "VPN authorization checked only at connect time",
+        "revoked identity remains connected",
+        "device compliance ignored after login",
+        "long-lived bearer token without CAE",
+        "session control disabled"
+      ],
+      "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-adoption"
+    },
+    {
+      "id": "protect-networks/centralized-network-telemetry-and-detection",
+      "pillar_id": 3,
+      "pillar_slug": "protect-networks",
+      "requirement": "Network, firewall, DNS, proxy, gateway, private-endpoint, identity, and device activity must be centrally logged and correlated with threat intelligence and behavioral detection for lateral movement and anomalous egress.",
+      "severity": "high",
+      "how_to_verify": "Inspect diagnostic settings and SIEM connectors for each network control, verify useful fields and time synchronization, retention and access, review detections and response ownership, and generate safe denied-flow, DNS, and cross-segment test events.",
+      "signals": [
+        "AZFWNetworkRule",
+        "AZFWApplicationRule",
+        "AZFWThreatIntel",
+        "AzureFirewallDnsProxy",
+        "NetworkSecurityGroupEvent",
+        "virtual network flow logs",
+        "DDoSProtectionNotifications",
+        "Microsoft Defender for Cloud",
+        "Microsoft Sentinel",
+        "diagnosticSettings"
+      ],
+      "anti_signals": [
+        "firewall logging disabled",
+        "DNS logs absent",
+        "retentionInDays: 0",
+        "network logs excluded from SIEM",
+        "allowed traffic only with no denied-flow logs",
+        "no lateral-movement detection",
+        "telemetry bypass for privileged subnet"
+      ],
+      "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/network-isolation"
+    },
+    {
+      "id": "protect-networks/secure-segmented-hybrid-connectivity",
+      "pillar_id": 3,
+      "pillar_slug": "protect-networks",
+      "requirement": "Cloud, on-premises, branch, partner, and multicloud links must use encrypted, authenticated connectivity with segmented route domains and explicit traffic policy; connectivity must not extend implicit trust or unrestricted route propagation.",
+      "severity": "high",
+      "how_to_verify": "Inspect ExpressRoute, VPN, Virtual WAN, peering, transit, BGP and route-table configuration, IPsec/IKE policy, shared-key handling, hub firewall insertion, partner routes, and propagation labels; test prohibited cross-segment routes.",
+      "signals": [
+        "ExpressRoute private peering",
+        "Virtual WAN hub",
+        "hub-spoke",
+        "routingIntent",
+        "routeTableLabels",
+        "IPsec",
+        "IKEv2",
+        "private connectivity",
+        "hub firewall",
+        "segmented route tables"
+      ],
+      "anti_signals": [
+        "AllowForwardedTraffic with unrestricted routes",
+        "any-to-any peering",
+        "propagate all routes to all segments",
+        "partner network trusted implicitly",
+        "VPN pre-shared key committed to repository",
+        "unencrypted hybrid link",
+        "firewall bypass through peering"
+      ],
+      "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/network-isolation"
+    },
+    {
+      "id": "protect-networks/network-policy-as-code-and-drift-prevention",
+      "pillar_id": 3,
+      "pillar_slug": "protect-networks",
+      "requirement": "Network resources and policy must be deployed from reviewed, versioned IaC with automated checks that block public exposure, permissive rules, missing segmentation, and drift from secure baselines.",
+      "severity": "medium",
+      "how_to_verify": "Review IaC coverage, CODEOWNERS and approvals for network modules, CI policy tests and deployment gates, Azure Policy or equivalent deny effects, drift reconciliation, exception suppression and expiry; introduce a safe permissive test rule and confirm blocking.",
+      "signals": [
+        "resource \"",
+        "Microsoft.Network/",
+        "CODEOWNERS",
+        "Azure Policy effect: deny",
+        "OPA",
+        "Conftest",
+        "PSRule for Azure",
+        "Checkov",
+        "terraform plan",
+        "az deployment what-if"
+      ],
+      "anti_signals": [
+        "manual portal-only network change",
+        "Azure Policy effect: audit only for critical control",
+        "skip_check",
+        "checkov:skip without expiry",
+        "ignore_changes on security rules",
+        "permissive rule accepted without approval",
+        "drift detection disabled"
+      ],
+      "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/network-isolation"
+    },
+    {
+      "id": "protect-engineering-systems/require-code-approval",
+      "pillar_id": 4,
+      "pillar_slug": "protect-engineering-systems",
+      "requirement": "Code changes must require multiple trusted approvers",
+      "severity": "critical",
+      "how_to_verify": "Check branch protection rules for PR review requirements and CODEOWNERS enforcement.",
+      "signals": [
+        "branch_protection",
+        "CODEOWNERS",
+        "pull_request_reviews"
+      ],
+      "anti_signals": [
+        "allow_force_pushes",
+        "admin_can_bypass_review"
+      ],
+      "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-adoption"
+    },
+    {
+      "id": "protect-engineering-systems/secret-scanning-ci",
+      "pillar_id": 4,
+      "pillar_slug": "protect-engineering-systems",
+      "requirement": "Pipelines must scan for leaked secrets and code vulnerabilities",
+      "severity": "critical",
+      "how_to_verify": "Check CI/CD configurations for SAST, DAST, and secret scanning tasks.",
+      "signals": [
+        "github/codeql-action",
+        "trivy",
+        "secret-scanning"
+      ],
+      "anti_signals": [
+        "# no security scanner configured"
+      ],
+      "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-adoption"
+    },
+    {
+      "id": "protect-engineering-systems/pipeline-least-privilege",
+      "pillar_id": 4,
+      "pillar_slug": "protect-engineering-systems",
+      "requirement": "Pipelines must run with least privilege access",
+      "severity": "high",
+      "how_to_verify": "Check pipeline definitions for minimal permission scopes rather than global write access.",
+      "signals": [
+        "permissions: contents: read",
+        "id-token: write"
+      ],
+      "anti_signals": [
+        "permissions: write-all"
+      ],
+      "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-whats-new"
+    },
+    {
+      "id": "protect-engineering-systems/trusted-dependencies",
+      "pillar_id": 4,
+      "pillar_slug": "protect-engineering-systems",
+      "requirement": "Dependencies must be pinned and trusted",
+      "severity": "high",
+      "how_to_verify": "Check for lockfiles and pinned versions in package manifests.",
+      "signals": [
+        "\"integrity\": \"sha",
+        "--hash=sha256",
+        "content-hash",
+        "\"lockfileVersion\""
+      ],
+      "anti_signals": [
+        "\"\\s*:\\s*\"[\\^~]\\d",
+        "\"\\s*:\\s*\"\\*\"",
+        "[:@]\\s*[\"']?latest\\b"
+      ],
+      "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-adoption"
+    },
+    {
+      "id": "monitor-and-detect-threats/centralized-logging",
+      "pillar_id": 5,
+      "pillar_slug": "monitor-and-detect-threats",
+      "requirement": "Logs must be centrally collected and retained.",
+      "severity": "critical",
+      "how_to_verify": "Check infrastructure as code for log analytics workspaces and diagnostic settings.",
+      "signals": [
+        "diagnostic_settings",
+        "log_analytics_workspace",
+        "splunk",
+        "datadog"
+      ],
+      "anti_signals": [
+        "# local logging only",
+        "audit_logs_disabled"
+      ],
+      "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-adoption"
+    },
+    {
+      "id": "monitor-and-detect-threats/alerting-configured",
+      "pillar_id": 5,
+      "pillar_slug": "monitor-and-detect-threats",
+      "requirement": "Threat detection and alerting must be configured for critical resources.",
+      "severity": "high",
+      "how_to_verify": "Check for monitor alerts and scheduled query rules.",
+      "signals": [
+        "azurerm_monitor_scheduled_query_rules_alert",
+        "cloudwatch_metric_alarm"
+      ],
+      "anti_signals": [
+        "# no alerts defined"
+      ],
+      "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-adoption"
+    },
+    {
+      "id": "monitor-and-detect-threats/telemetry-coverage",
+      "pillar_id": 5,
+      "pillar_slug": "monitor-and-detect-threats",
+      "requirement": "Services must emit telemetry indicating security context.",
+      "severity": "medium",
+      "how_to_verify": "Review application code for OpenTelemetry or Application Insights integration.",
+      "signals": [
+        "opentelemetry",
+        "appinsights",
+        "tracing"
+      ],
+      "anti_signals": [
+        "console.log",
+        "(?i)\\bprint\\("
+      ],
+      "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-whats-new"
+    },
+    {
+      "id": "monitor-and-detect-threats/ai-threat-modeling",
+      "pillar_id": 5,
+      "pillar_slug": "monitor-and-detect-threats",
+      "requirement": "AI systems must be threat modeled and monitored.",
+      "severity": "high",
+      "how_to_verify": "Check for AI threat modeling artifacts and specific AI monitoring rules.",
+      "signals": [
+        "threat-model",
+        "ai-observability",
+        "prompt-injection-detection"
+      ],
+      "anti_signals": [
+        "# unmonitored AI endpoint"
+      ],
+      "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-whats-new"
+    },
+    {
+      "id": "accelerate-response-and-remediation/incident-response-playbooks",
+      "pillar_id": 6,
+      "pillar_slug": "accelerate-response-and-remediation",
+      "requirement": "Repositories must contain incident response playbooks/runbooks.",
+      "severity": "high",
+      "how_to_verify": "Scan repository for runbooks and incident response documentation.",
+      "signals": [
+        "docs/runbooks",
+        "incident_response.md",
+        "SECURITY.md"
+      ],
+      "anti_signals": [
+        "# no security contacts"
+      ],
+      "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-adoption"
+    },
+    {
+      "id": "accelerate-response-and-remediation/automated-containment",
+      "pillar_id": 6,
+      "pillar_slug": "accelerate-response-and-remediation",
+      "requirement": "Automated containment scripts/tools must be present.",
+      "severity": "medium",
+      "how_to_verify": "Check for automated revocation logic or SOAR playbook definitions.",
+      "signals": [
+        "revoke_tokens.sh",
+        "rotate_keys.ps1",
+        "soar-workflow"
+      ],
+      "anti_signals": [
+        "# manual steps only"
+      ],
+      "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-adoption"
+    },
+    {
+      "id": "accelerate-response-and-remediation/vulnerability-scanning-enforcement",
+      "pillar_id": 6,
+      "pillar_slug": "accelerate-response-and-remediation",
+      "requirement": "Vulnerabilities must be automatically identified and blocked or mitigated.",
+      "severity": "high",
+      "how_to_verify": "Check for dependabot or renovate configured with auto-merge for security patches.",
+      "signals": [
+        "dependabot",
+        "renovate",
+        "dependabot.yml"
+      ],
+      "anti_signals": [
+        "# vulnerability alerts disabled"
+      ],
+      "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-whats-new"
+    },
+    {
+      "id": "accelerate-response-and-remediation/post-incident-learning",
+      "pillar_id": 6,
+      "pillar_slug": "accelerate-response-and-remediation",
+      "requirement": "Repositories should document post-incident reviews (PIR).",
+      "severity": "low",
+      "how_to_verify": "Check for PIR templates or directories.",
+      "signals": [
+        "docs/pir",
+        "post_mortem_template.md"
+      ],
+      "anti_signals": [
+        "# missing PIR process"
+      ],
+      "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-adoption"
+    }
+  ]
+}

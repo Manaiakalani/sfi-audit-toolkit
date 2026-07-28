@@ -1,0 +1,4 @@
+# Unpinned dependencies — versions float, no integrity hashes.
+requests
+flask
+azure-identity

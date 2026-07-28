@@ -1,0 +1,20 @@
+{
+  "fixture": "noncompliant",
+  "description": "Deliberately insecure sample project; the scanner must flag the planted violations.",
+  "overall": {
+    "allowed_grades": ["F", "D"],
+    "min_failed": 8,
+    "max_failed": 8
+  },
+  "must_fail": [
+    "protect-identities-and-secrets/no-tracked-env-files",
+    "protect-identities-and-secrets/no-hardcoded-or-committed-secrets",
+    "protect-identities-and-secrets/managed-and-short-lived-workload-identities",
+    "protect-engineering-systems/pin-ci-actions-to-sha",
+    "protect-engineering-systems/pin-dependency-versions",
+    "protect-engineering-systems/pipeline-least-privilege",
+    "protect-engineering-systems/require-code-owner-review",
+    "accelerate-response-and-remediation/security-policy-present"
+  ],
+  "must_pass": []
+}

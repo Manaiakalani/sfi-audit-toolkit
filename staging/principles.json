@@ -1,0 +1,88 @@
+{
+  "security_principles": [
+    {
+      "key": "secure_by_design",
+      "name": "Secure by design",
+      "description": "Security comes first when designing any product or service."
+    },
+    {
+      "key": "secure_by_default",
+      "name": "Secure by default",
+      "description": "Security protections are enabled and enforced by default, require no extra effort, and are not optional."
+    },
+    {
+      "key": "secure_operations",
+      "name": "Secure operations",
+      "description": "Security controls and monitoring are continuously improved to meet current and future threats."
+    }
+  ],
+  "security_principle_application": [
+    {
+      "name": "Innovate",
+      "description": "Build by-design security features into Microsoft platforms and services."
+    },
+    {
+      "name": "Implement",
+      "description": "Introduce security innovations in Microsoft products with new features, secure defaults, and enforced standards."
+    },
+    {
+      "name": "Guide",
+      "description": "Provide customers with guidance and best practices to deploy, operate, and continuously improve security."
+    }
+  ],
+  "zero_trust_principles": [
+    {
+      "key": "verify_explicitly",
+      "name": "Verify explicitly",
+      "description": "Every access request is authenticated and authorized using all available signals (identity, device, location, behavior, and risk). Verification is continuous, so trust is re-evaluated throughout a session rather than established only once."
+    },
+    {
+      "key": "use_least_privilege",
+      "name": "Use least privilege",
+      "description": "Users and workloads get only the access they need, for the shortest time required. Permissions are tightly scoped, granted just-in-time, and removed when no longer valid to minimize standing access."
+    },
+    {
+      "key": "assume_breach",
+      "name": "Assume breach",
+      "description": "Security controls are designed with the expectation that attackers might already be operating inside the environment. Controls focus on limiting breach impact (blast radius) through segmentation and least privilege, and on enabling rapid threat detection and response."
+    }
+  ],
+  "nist_csf_functions": [
+    {
+      "code": "GV",
+      "name": "Govern",
+      "description": "The organization's cybersecurity risk management strategy, expectations, and policy are established, communicated, and monitored. Govern is cross-cutting: it informs how an organization achieves and prioritizes the outcomes of the other five functions in the context of its mission and stakeholder expectations, spanning organizational context, risk management strategy, roles and responsibilities, policy, oversight, and supply chain risk management."
+    },
+    {
+      "code": "ID",
+      "name": "Identify",
+      "description": "The organization's current cybersecurity risks are understood. Identify builds an organizational understanding of assets (data, hardware, software, systems, facilities, services, and people), suppliers, and related cybersecurity risks, enabling efforts to be prioritized consistent with the risk management strategy and mission needs."
+    },
+    {
+      "code": "PR",
+      "name": "Protect",
+      "description": "Safeguards to manage the organization's cybersecurity risks are used. Protect secures identified assets to prevent or lower the likelihood and impact of adverse cybersecurity events, spanning identity management, authentication and access control, awareness and training, data security, platform security, and technology infrastructure resilience."
+    },
+    {
+      "code": "DE",
+      "name": "Detect",
+      "description": "Possible cybersecurity attacks and compromises are found and analyzed. Detect enables the timely discovery and analysis of anomalies, indicators of compromise, and other potentially adverse events through continuous monitoring and adverse event analysis."
+    },
+    {
+      "code": "RS",
+      "name": "Respond",
+      "description": "Actions regarding a detected cybersecurity incident are taken. Respond supports the ability to contain the effects of a cybersecurity incident through incident management, analysis, mitigation, and reporting and communication."
+    },
+    {
+      "code": "RC",
+      "name": "Recover",
+      "description": "Assets and operations affected by a cybersecurity incident are restored. Recover supports the timely restoration of normal operations to reduce the effects of cybersecurity incidents and enables appropriate communication during recovery efforts."
+    }
+  ],
+  "sfi_overview": {
+    "launched": "November 2023",
+    "description": "The Secure Future Initiative (SFI) is a multiyear, cross-company effort launched by Microsoft in November 2023 to increasingly secure the way Microsoft designs, builds, tests, and operates its products and services. It applies a set of security principles (Secure by design, Secure by default, Secure operations) across six prioritized engineering pillars through processes, standards, and continuous improvement, evolving in structured waves to keep pace with the threat landscape. SFI objectives map explicitly to Microsoft's Zero Trust principles and the NIST Cybersecurity Framework, with progress shared through periodic public progress reports.",
+    "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-overview"
+  },
+  "_notes": "All Microsoft sources fetched successfully via web_fetch (learn.microsoft.com SFI overview and Zero Trust overview, 2026 revisions). Security-principle labeling corrected in Round 11 (2026-07): Microsoft's overview 'Security principles' section names three principles \u2014 Secure by design, Secure by default, Secure operations \u2014 with the definitions used here taken verbatim from that page; Innovate / Implement / Guide are the verbs Microsoft lists under 'We use these principles to:' and are therefore preserved as 'security_principle_application' rather than as the principles themselves. Zero Trust text is taken verbatim/near-verbatim from the same pages. The NIST landing page (https://www.nist.gov/cyberframework) is a JavaScript-heavy portal and returned minimal readable content, so authoritative NIST CSF 2.0 function definitions were sourced from the official CSF 2.0 publication (NIST.CSWP.29, https://nvlpubs.nist.gov/nistpubs/CSWP/NIST.CSWP.29.pdf) and cross-referenced with the NIST functions summary table in Microsoft's SFI overview."
+}

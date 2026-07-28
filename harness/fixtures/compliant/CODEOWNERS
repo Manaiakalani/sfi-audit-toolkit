@@ -1,0 +1,4 @@
+# Ownership of code paths for mandatory review (branch protection + CODEOWNERS).
+*           @contoso/platform-security
+/infra/     @contoso/cloud-platform
+/src/       @contoso/app-team

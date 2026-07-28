@@ -1,0 +1,15 @@
+# CI pipeline — insecure example (unpinned actions, broad permissions).
+name: ci
+on: [push]
+
+permissions: write-all   # over-privileged token
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # Third-party actions pinned only to a mutable tag — not a commit SHA.
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+      - uses: some-marketplace/deploy-action@main
+      - run: pip install -r requirements.txt

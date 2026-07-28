@@ -1,0 +1,198 @@
+{
+  "description": "Canonical, human-readable JSON-Schema-style description of the Microsoft Secure Future Initiative (SFI) knowledge base. The synthesis step assembles the files below from the staging extracts; a Python loader and an MCP server rely on these shapes. Shapes are expressed with type strings ('string', 'integer', 'boolean', 'array<string>', 'array<object>'), nested objects for object fields, and inline enum notes. Every '*_url' field is a string URL; dates are ISO 8601 unless noted.",
+  "version": "1.0.0",
+  "files": {
+    "sfi_pillars.json": {
+      "description": "The six SFI engineering pillars with their Zero Trust mapping, NIST CSF functions, objectives, best practices, and audit criteria. This is the primary structured source; sfi_checklists.json is derived from every pillar's audit_criteria.",
+      "shape": {
+        "version": "string (semver, e.g. '1.0.0')",
+        "generated_at": "string (ISO 8601 date, e.g. '2026-07-24')",
+        "pillars": {
+          "type": "array<object>",
+          "items": {
+            "id": "integer (1-6)",
+            "slug": "string (enum: see conventions.slugs; one of the six pillar slugs)",
+            "name": "string (human-readable pillar name)",
+            "statement": "string (one-sentence description of the pillar's goal)",
+            "zero_trust": {
+              "verify_explicitly": "string (how the Verify explicitly principle applies to this pillar)",
+              "use_least_privilege": "string (how the Use least privilege principle applies to this pillar)",
+              "assume_breach": "string (how the Assume breach principle applies to this pillar)"
+            },
+            "nist_csf_functions": "array<string> (subset of enum: GV|ID|PR|DE|RS|RC)",
+            "nist_csf_detail": "string (prose describing how the listed NIST functions/categories apply to this pillar)",
+            "objectives": {
+              "type": "array<object>",
+              "items": {
+                "id": "string (pillar-scoped identifier, e.g. '4.1')",
+                "title": "string",
+                "description": "string",
+                "source_url": "string (url)"
+              }
+            },
+            "best_practices": {
+              "type": "array<object>",
+              "items": {
+                "practice": "string (the recommended best practice)",
+                "zero_trust": "string (the associated Zero Trust principle and how it applies, e.g. 'Assume breach: Treat build and repo systems as potential targets.')",
+                "adoption_considerations": "string (trade-offs or effort involved in adopting the practice)",
+                "detailed_guidance_url": "string (url; may be site-relative, e.g. '/en-us/security/zero-trust/sfi/...')",
+                "source_url": "string (url)"
+              }
+            },
+            "audit_criteria": {
+              "type": "array<object>",
+              "items": {
+                "id": "string (slug, unique within the pillar, e.g. 'require-code-approval')",
+                "requirement": "string (the auditable requirement)",
+                "rationale": "string (why the requirement matters)",
+                "how_to_verify": "string (concrete steps or evidence to check)",
+                "severity": "string (enum: critical|high|medium|low)",
+                "signals": "array<string> (positive indicators that the requirement is met, e.g. file names, config keys, tool names)",
+                "anti_signals": "array<string> (indicators that the requirement is violated or absent)",
+                "source_url": "string (url)"
+              }
+            }
+          }
+        }
+      }
+    },
+    "sfi_principles.json": {
+      "description": "Cross-cutting glossaries shared by the whole knowledge base: SFI security principles, Zero Trust principles, NIST CSF 2.0 functions, and a short SFI overview. Produced from principles.json in staging.",
+      "shape": {
+        "security_principles": {
+          "type": "array<object>",
+          "items": {
+            "name": "string (enum: Innovate|Implement|Guide)",
+            "description": "string"
+          }
+        },
+        "zero_trust_principles": {
+          "type": "array<object>",
+          "items": {
+            "key": "string (enum: verify_explicitly|use_least_privilege|assume_breach)",
+            "name": "string (enum: 'Verify explicitly'|'Use least privilege'|'Assume breach')",
+            "description": "string"
+          }
+        },
+        "nist_csf_functions": {
+          "type": "array<object>",
+          "items": {
+            "code": "string (enum: GV|ID|PR|DE|RS|RC)",
+            "name": "string (enum: Govern|Identify|Protect|Detect|Respond|Recover)",
+            "description": "string (authoritative NIST CSF 2.0 function definition)"
+          }
+        },
+        "sfi_overview": {
+          "launched": "string (e.g. 'November 2023')",
+          "description": "string (2-3 sentence description of SFI)",
+          "source_url": "string (url)"
+        },
+        "_notes": "string (optional; records fetch gaps, provenance, or extraction caveats)"
+      }
+    },
+    "sfi_patterns.json": {
+      "description": "Catalog of concrete security patterns and practices harvested from SFI progress reports, plus a per-report index. Each pattern is attributed to a pillar and to the report it came from.",
+      "shape": {
+        "patterns": {
+          "type": "array<object>",
+          "items": {
+            "title": "string (name of the pattern or practice)",
+            "pillar_slug": "string (enum: see conventions.slugs)",
+            "pillar_id": "integer (1-6; matches pillar_slug)",
+            "url": "string (url to the pattern's source or guidance)",
+            "summary": "string (short description of the pattern)",
+            "source_report": "string (name/date of the SFI progress report the pattern came from, e.g. 'SFI progress report - July 2026')"
+          }
+        },
+        "reports": {
+          "type": "array<object>",
+          "items": {
+            "name": "string (report name, e.g. 'SFI progress report')",
+            "date": "string (e.g. 'July 2026' or ISO 8601 date)",
+            "url": "string (url)",
+            "summary": "string (overview of the report)",
+            "highlights": "array<string> (key takeaways from the report)",
+            "new_patterns": "array<string> (titles of patterns introduced in this report; should correspond to patterns[].title)"
+          }
+        }
+      }
+    },
+    "sfi_checklists.json": {
+      "description": "A flattened, scanner-ready view derived from every pillar's audit_criteria in sfi_pillars.json. Each checklist item is denormalized with its owning pillar so a scanner can iterate a single flat list without walking the pillar tree.",
+      "shape": {
+        "version": "string (semver)",
+        "checklist": {
+          "type": "array<object>",
+          "items": {
+            "id": "string (globally unique; typically '<pillar_slug>/<audit_criteria.id>' or the pillar's audit_criteria id)",
+            "pillar_id": "integer (1-6)",
+            "pillar_slug": "string (enum: see conventions.slugs)",
+            "requirement": "string (copied from the source audit criterion)",
+            "severity": "string (enum: critical|high|medium|low)",
+            "how_to_verify": "string",
+            "signals": "array<string>",
+            "anti_signals": "array<string>",
+            "source_url": "string (url)"
+          }
+        }
+      }
+    },
+    "sources.json": {
+      "description": "Provenance ledger of every source consulted while building the knowledge base, including whether the fetch returned readable content and what KB content it informed.",
+      "shape": {
+        "version": "string (semver)",
+        "generated_at": "string (ISO 8601 date)",
+        "sources": {
+          "type": "array<object>",
+          "items": {
+            "url": "string (url)",
+            "title": "string",
+            "type": "string (enum: documentation|progress_report|blog|framework|other)",
+            "retrieved_at": "string (ISO 8601 datetime)",
+            "readable": "boolean (true if the fetch returned usable content, false if blocked/empty/JS-only)",
+            "used_for": "string (what KB content this source informed, e.g. 'pillar 4 objectives')",
+            "report_version": "string|null (SFI report version/date if the source is a progress report, else null)"
+          }
+        }
+      }
+    }
+  },
+  "conventions": {
+    "slugs": [
+      "protect-identities-and-secrets",
+      "protect-tenants-and-isolate-systems",
+      "protect-networks",
+      "protect-engineering-systems",
+      "monitor-and-detect-threats",
+      "accelerate-response-and-remediation"
+    ],
+    "severities": [
+      "critical",
+      "high",
+      "medium",
+      "low"
+    ],
+    "nist_functions": [
+      "GV",
+      "ID",
+      "PR",
+      "DE",
+      "RS",
+      "RC"
+    ],
+    "zero_trust_principles": [
+      "verify_explicitly",
+      "use_least_privilege",
+      "assume_breach"
+    ],
+    "pillar_id_to_slug": {
+      "1": "protect-identities-and-secrets",
+      "2": "protect-tenants-and-isolate-systems",
+      "3": "protect-networks",
+      "4": "protect-engineering-systems",
+      "5": "monitor-and-detect-threats",
+      "6": "accelerate-response-and-remediation"
+    }
+  }
+}

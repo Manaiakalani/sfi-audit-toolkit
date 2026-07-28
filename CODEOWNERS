@@ -1,0 +1,10 @@
+# Code owners for the SFI audit skill & MCP server.
+# Enforce via branch protection: require review from code owners before merge.
+# Replace the placeholder team/handles with your real owners.
+
+*                       @your-org/security-engineering
+
+/data/                  @your-org/security-engineering
+/mcp_server/            @your-org/security-engineering
+/harness/               @your-org/security-engineering
+/skill.md               @your-org/security-engineering

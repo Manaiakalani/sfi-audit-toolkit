@@ -1,0 +1,1102 @@
+{
+  "retrieved_at": "2026-07-24",
+  "pillars": [
+    {
+      "id": 1,
+      "slug": "protect-identities-and-secrets",
+      "name": "Protect identities and secrets",
+      "statement": "Ensure that only verified and authorized identities can access resources.",
+      "zero_trust": {
+        "verify_explicitly": "Enforce continuous, context-aware, passwordless authentication (Windows Hello, FIDO2 passkeys, certificate, etc.).",
+        "use_least_privilege": "Reduce overprivileged identities and enforce privileged identity management/just-in-time access.",
+        "assume_breach": "Rotate credentials rapidly and use short-lived tokens to reduce blast radius."
+      },
+      "nist_csf_functions": [
+        "PR",
+        "DE"
+      ],
+      "nist_csf_detail": "PR: Implement controls to secure credentials, secrets, and access; DE: Continuously monitor identity activities for anomalies.",
+      "objectives": [
+        {
+          "id": "1.1",
+          "title": "Protect cryptographic signing keys",
+          "description": "Protect identity infrastructure signing and platform keys with rapid, automatic rotation and hardware storage and protection. Latest progress (July 2026): 100% of Microsoft Entra ID token-signing keys in Azure public and US Government clouds were migrated to Azure Confidential Computing so cryptographic operations occur in secure execution environments.",
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-whats-new"
+        },
+        {
+          "id": "1.2",
+          "title": "Adopt standard SDKs for identity",
+          "description": "Strengthen identity standards and drive adoption of standard SDKs so applications and services use a uniform, hardened token-validation library. Latest progress (July 2026): MSAL was updated against authorization-code social engineering, 93% of Microsoft Entra traffic uses the standard SDK, and legacy authentication protocols continue to be retired.",
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-whats-new"
+        },
+        {
+          "id": "1.3",
+          "title": "Enforce phishing-resistant MFA",
+          "description": "Ensure user accounts are protected with securely enforced, phishing-resistant multifactor authentication. Latest progress (July 2026): enforcement reached 99.97% user and device coverage, including full macOS enforcement and expanded Linux support, with steady-state monitoring shifting toward OAuth consent phishing, open redirects, and redirect URI hijacking.",
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-whats-new"
+        },
+        {
+          "id": "1.4",
+          "title": "Standardize safe secrets",
+          "description": "Move away from long-lived secrets such as service-account credentials and protect applications with system-managed credentials such as managed identities. Latest progress (July 2026): new services increasingly use identity-based authentication by default, with broader use of short-lived, workload-bound credentials that cannot be replayed outside their intended environment.",
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-whats-new"
+        },
+        {
+          "id": "1.5",
+          "title": "Provide stateful validation for identity tokens",
+          "description": "Protect identity tokens with stateful and duration validation. Latest progress (July 2026): Microsoft Entra access tokens include linkable identifiers that correlate activity across Entra, Exchange Online, Microsoft Graph, SharePoint Online, and Teams audit logs to speed investigation and containment of compromised sessions.",
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-whats-new"
+        },
+        {
+          "id": "1.6",
+          "title": "Use fine-grained key partitioning",
+          "description": "Adopt more fine-grained partitioning of identity signing keys and platform keys. Latest progress (July 2026): datacenter key partitioning is fully deployed across all cloud environments for baseline identity operations, and new Azure cloud environments use split keys by default.",
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-whats-new"
+        },
+        {
+          "id": "1.7",
+          "title": "Introduce quantum-safe PKI systems",
+          "description": "Prepare identity and certificate PKI systems for post-quantum cryptography. Latest progress (July 2026): Microsoft defined a transition approach, validated scope across certificate services, identity platforms, and critical service trust chains, and is developing a phased implementation plan.",
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-whats-new"
+        }
+      ],
+      "best_practices": [
+        {
+          "practice": "Implement and enforce phishing-resistant MFA for privileged accounts, administrators, and all users.",
+          "zero_trust": "Verify explicitly: Continuous, adaptive authentication based on risk and context. Use least privilege: Use Just-In-Time/Just-Enough Access controls. Assume breach: Credential misuse triggers automatic revocation and access reviews.",
+          "adoption_considerations": "Older applications might require modernization for managed identities and standard SDKs; phishing-resistant MFA can require user enablement and hardware; auditing and rotation policies add operational overhead.",
+          "detailed_guidance_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/phishing-resistant-mfa",
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-adoption"
+        },
+        {
+          "practice": "Deprecate passwords, SMS OTP, push-only prompts, and other legacy authentication or MFA methods that are not phishing-resistant.",
+          "zero_trust": "Verify explicitly: Continuous, adaptive authentication based on risk and context. Use least privilege: Use Just-In-Time/Just-Enough Access controls. Assume breach: Credential misuse triggers automatic revocation and access reviews.",
+          "adoption_considerations": "Older applications might require modernization for managed identities and standard SDKs; phishing-resistant MFA can require user enablement and hardware; auditing and rotation policies add operational overhead.",
+          "detailed_guidance_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/phishing-resistant-mfa",
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-adoption"
+        },
+        {
+          "practice": "Eliminate static workload credentials and use managed identities, Microsoft Entra Workload ID, or dynamic short-lived tokens.",
+          "zero_trust": "Verify explicitly: Continuous, adaptive authentication based on risk and context. Use least privilege: Use Just-In-Time/Just-Enough Access controls. Assume breach: Credential misuse triggers automatic revocation and access reviews.",
+          "adoption_considerations": "Older applications might require modernization for managed identities and standard SDKs; phishing-resistant MFA can require user enablement and hardware; auditing and rotation policies add operational overhead.",
+          "detailed_guidance_url": "https://learn.microsoft.com/en-us/entra/workload-id/workload-identities-overview",
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-adoption"
+        },
+        {
+          "practice": "Centralize secrets and credentials in monitored vaults; protect keys with RBAC, network isolation, access logging, and managed HSMs where warranted.",
+          "zero_trust": "Verify explicitly: Continuous, adaptive authentication based on risk and context. Use least privilege: Use Just-In-Time/Just-Enough Access controls. Assume breach: Credential misuse triggers automatic revocation and access reviews.",
+          "adoption_considerations": "Older applications might require modernization for managed identities and standard SDKs; phishing-resistant MFA can require user enablement and hardware; auditing and rotation policies add operational overhead.",
+          "detailed_guidance_url": "https://learn.microsoft.com/en-us/azure/well-architected/security/application-secrets",
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-adoption"
+        },
+        {
+          "practice": "Automate secret rotation and the complete signing-key and certificate lifecycle.",
+          "zero_trust": "Verify explicitly: Continuous, adaptive authentication based on risk and context. Use least privilege: Use Just-In-Time/Just-Enough Access controls. Assume breach: Credential misuse triggers automatic revocation and access reviews.",
+          "adoption_considerations": "Older applications might require modernization for managed identities and standard SDKs; phishing-resistant MFA can require user enablement and hardware; auditing and rotation policies add operational overhead.",
+          "detailed_guidance_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-adoption",
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-adoption"
+        },
+        {
+          "practice": "Use standardized Microsoft-supported identity SDKs such as MSAL and Microsoft.Identity.Web; do not implement custom JWT validation.",
+          "zero_trust": "Verify explicitly: Continuous, adaptive authentication based on risk and context. Use least privilege: Use Just-In-Time/Just-Enough Access controls. Assume breach: Credential misuse triggers automatic revocation and access reviews.",
+          "adoption_considerations": "Older applications might require modernization for managed identities and standard SDKs; phishing-resistant MFA can require user enablement and hardware; auditing and rotation policies add operational overhead.",
+          "detailed_guidance_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/adopt-standard-sdk-identity",
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-adoption"
+        },
+        {
+          "practice": "Continuously scan code, repositories, and pipelines for leaked credentials, then revoke and remediate findings.",
+          "zero_trust": "Verify explicitly: Continuous, adaptive authentication based on risk and context. Use least privilege: Use Just-In-Time/Just-Enough Access controls. Assume breach: Credential misuse triggers automatic revocation and access reviews.",
+          "adoption_considerations": "Older applications might require modernization for managed identities and standard SDKs; phishing-resistant MFA can require user enablement and hardware; auditing and rotation policies add operational overhead.",
+          "detailed_guidance_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-adoption",
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-adoption"
+        }
+      ],
+      "audit_criteria": [
+        {
+          "id": "phishing-resistant-mfa-enforced",
+          "requirement": "All human identities, especially privileged and external identities, must use phishing-resistant authentication, with legacy authentication and weak MFA methods blocked by policy.",
+          "rationale": "Passkeys, FIDO2, Windows Hello for Business, and certificate-based authentication resist credential replay, adversary-in-the-middle phishing, and MFA fatigue attacks.",
+          "how_to_verify": "Review exported Microsoft Entra authentication-method and Conditional Access policies, confirm a phishing-resistant authentication strength applies to every admin and user scope, inspect exclusions, and sample sign-in logs to verify successful sign-ins satisfy that strength.",
+          "severity": "critical",
+          "signals": [
+            "azuread_conditional_access_policy",
+            "authenticationStrength",
+            "phishingResistant",
+            "FIDO2",
+            "passkey",
+            "WindowsHelloForBusiness",
+            "certificateBasedAuthentication",
+            "TemporaryAccessPass"
+          ],
+          "anti_signals": [
+            "legacy authentication allowed",
+            "SMS OTP accepted for administrator",
+            "voice call MFA",
+            "push notification without number matching",
+            "Conditional Access exclusion: All users",
+            "grantControls: mfa without authentication strength"
+          ],
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/phishing-resistant-mfa"
+        },
+        {
+          "id": "no-hardcoded-or-committed-secrets",
+          "requirement": "Source, configuration, tests, examples, artifacts, and Git history must not contain usable passwords, API keys, private keys, tokens, connection strings, or client secrets.",
+          "rationale": "Committed credentials are durable, easily copied, and frequently become an initial-access path even after the visible file is removed.",
+          "how_to_verify": "Run repository and history secret scanning, inspect tracked .env and credential files, triage high-entropy findings, verify test fixtures are inert, and confirm every real finding was revoked rather than merely deleted.",
+          "severity": "critical",
+          "signals": [
+            "detect-secrets",
+            "gitleaks.toml",
+            "trufflehog",
+            "GitHub secret scanning",
+            "KeyVault reference",
+            "process.env.",
+            "DefaultAzureCredential"
+          ],
+          "anti_signals": [
+            "AKIA[0-9A-Z]{16}",
+            "-----BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY-----",
+            "(?i)(client_secret|password|api[_-]?key)\\s*[:=]\\s*[\"'][^\"']+[\"']",
+            "AccountKey=",
+            "SharedAccessSignature=",
+            "tracked .env",
+            "credentials.json"
+          ],
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-adoption"
+        },
+        {
+          "id": "managed-and-short-lived-workload-identities",
+          "requirement": "Workloads, automation, and AI agents must use managed identities or workload identity federation with narrowly scoped, short-lived tokens; each agent must have accountable ownership and bounded permissions.",
+          "rationale": "System-managed, workload-bound identities remove reusable secrets and prevent a stolen token from being replayed from an unintended environment.",
+          "how_to_verify": "Inspect application and IaC authentication paths, CI OIDC configuration, federated credential subject and audience restrictions, managed identity assignments, token lifetimes, agent ownership metadata, and ensure no fallback client-secret path exists.",
+          "severity": "critical",
+          "signals": [
+            "type: SystemAssigned",
+            "Microsoft.ManagedIdentity/userAssignedIdentities",
+            "DefaultAzureCredential",
+            "ManagedIdentityCredential",
+            "WorkloadIdentityCredential",
+            "federatedIdentityCredentials",
+            "permissions: id-token: write",
+            "AZURE_FEDERATED_TOKEN_FILE",
+            "agent owner",
+            "agent sponsor"
+          ],
+          "anti_signals": [
+            "AZURE_CLIENT_SECRET",
+            "clientSecret:",
+            "servicePrincipalPassword",
+            "passwordCredentials",
+            "long-lived bearer token",
+            "agent with wildcard tool permissions",
+            "unowned agent identity"
+          ],
+          "source_url": "https://www.microsoft.com/en-us/trust-center/security/secure-future-initiative/patterns-and-practices"
+        },
+        {
+          "id": "secrets-and-keys-in-hardened-vaults",
+          "requirement": "Necessary secrets and cryptographic keys must be held in a centralized vault with least-privilege RBAC, private network access, audit logging, recovery protections, hardware protection for high-value keys, and separation by tenant or environment.",
+          "rationale": "Vault controls, HSM boundaries, and fine-grained key partitioning reduce extraction risk, unauthorized use, and cross-environment blast radius.",
+          "how_to_verify": "Inspect Key Vault or managed HSM IaC and runtime exports for RBAC, firewall/private endpoints, purge protection, soft delete, diagnostics, SKU/key type, role scopes, and distinct production/non-production key stores.",
+          "severity": "high",
+          "signals": [
+            "Microsoft.KeyVault/vaults",
+            "Microsoft.KeyVault/managedHSMs",
+            "enableRbacAuthorization: true",
+            "publicNetworkAccess: Disabled",
+            "privateEndpointConnections",
+            "enablePurgeProtection: true",
+            "diagnosticSettings",
+            "kty: RSA-HSM",
+            "key_ops"
+          ],
+          "anti_signals": [
+            "publicNetworkAccess: Enabled",
+            "defaultAction: Allow",
+            "enableRbacAuthorization: false",
+            "enablePurgeProtection: false",
+            "vault access granted to all principals",
+            "same signing key URI in dev and prod"
+          ],
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-adoption"
+        },
+        {
+          "id": "automated-credential-and-key-rotation",
+          "requirement": "Secrets, certificates, signing keys, and emergency credentials must have bounded lifetimes and automated issuance, rotation, revocation, and expiry monitoring.",
+          "rationale": "Rapid rotation and short-lived credentials limit replay windows and reduce the blast radius of compromise.",
+          "how_to_verify": "Review vault rotation policies, certificate lifetime actions, automation workflows, expiry alerts, application overlap handling, and evidence from a recent successful rotation or revocation test.",
+          "severity": "high",
+          "signals": [
+            "rotationPolicy",
+            "lifetimeActions",
+            "trigger: timeAfterCreate",
+            "trigger: timeBeforeExpiry",
+            "expiresOn",
+            "KeyNearExpiry",
+            "SecretNearExpiry",
+            "rotate",
+            "revoke"
+          ],
+          "anti_signals": [
+            "expiresOn: null",
+            "no_expiry",
+            "certificate validity > 397 days",
+            "token lifetime measured in years",
+            "manual-only rotation runbook",
+            "never rotate"
+          ],
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-adoption"
+        },
+        {
+          "id": "standard-sdk-and-complete-token-validation",
+          "requirement": "Applications must use a supported identity SDK and validate token signature, issuer, audience, lifetime, scopes or roles, tenant, and revocation or state where supported; custom JWT parsing must not make authorization decisions.",
+          "rationale": "A hardened standard SDK prevents inconsistent claim interpretation and supports secure defaults, key rollover, telemetry, and Continuous Access Evaluation.",
+          "how_to_verify": "Inspect dependency manifests and authentication middleware, trace each token-consuming endpoint, confirm validation parameters and authorization checks, and test wrong issuer, audience, signature, expired, revoked, and cross-tenant tokens.",
+          "severity": "critical",
+          "signals": [
+            "Microsoft.Identity.Web",
+            "Microsoft.Identity.Client",
+            "@azure/msal-browser",
+            "@azure/msal-node",
+            "msal",
+            "validateIssuer",
+            "validateAudience",
+            "ValidateLifetime",
+            "xms_cc"
+          ],
+          "anti_signals": [
+            "jwt.decode(",
+            "verify_signature: false",
+            "ValidateIssuer = false",
+            "ValidateAudience = false",
+            "RequireSignedTokens = false",
+            "manual Base64Url token parsing",
+            "authorization based only on decoded claims"
+          ],
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/adopt-standard-sdk-identity"
+        },
+        {
+          "id": "least-privilege-jit-privileged-access",
+          "requirement": "Human and workload permissions must be narrowly scoped, with privileged access eligible rather than permanently active and activated just in time with approval, MFA, expiry, and auditability.",
+          "rationale": "Removing standing privilege and limiting role scope reduces escalation opportunities and the damage a compromised identity can cause.",
+          "how_to_verify": "Enumerate IAM and directory role assignments, compare permissions with documented needs, inspect PIM eligibility and activation settings, identify permanent high-privilege grants, and test that expired elevation is removed.",
+          "severity": "high",
+          "signals": [
+            "Privileged Identity Management",
+            "roleEligibilityScheduleRequests",
+            "eligibleAssignment",
+            "justInTimeAccessPolicies",
+            "activationDuration",
+            "approvalRequired",
+            "roleDefinitionId"
+          ],
+          "anti_signals": [
+            "permanent Global Administrator",
+            "Owner at /subscriptions",
+            "(?i)\\bactions['\"]?\\s*:\\s*\\[\\s*['\"]\\*['\"]\\s*\\]",
+            "(?i)\\bdataactions['\"]?\\s*:\\s*\\[\\s*['\"]\\*['\"]\\s*\\]",
+            "standing admin service principal",
+            "PIM activation without MFA or expiry"
+          ],
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-adoption"
+        },
+        {
+          "id": "identity-and-vault-audit-monitoring",
+          "requirement": "Authentication, authorization, token, consent, privileged-role, workload-identity, and vault access events must be centrally logged, correlated, retained, and monitored for anomalies and misuse.",
+          "rationale": "Continuous identity monitoring detects credential abuse and provides the correlation needed to contain compromised sessions quickly.",
+          "how_to_verify": "Inspect diagnostic settings and SIEM ingestion for sign-in, service-principal sign-in, audit, risky-user, PIM, and Key Vault logs; verify alert rules, retention, immutable access controls, and test-event visibility.",
+          "severity": "high",
+          "signals": [
+            "SignInLogs",
+            "ServicePrincipalSignInLogs",
+            "AuditLogs",
+            "RiskyUsers",
+            "AADManagedIdentitySignInLogs",
+            "AuditEvent",
+            "AzureDiagnostics",
+            "Microsoft Sentinel",
+            "diagnosticSettings"
+          ],
+          "anti_signals": [
+            "logsEnabled: false",
+            "retentionInDays: 0",
+            "PIM audit disabled",
+            "Key Vault diagnostics absent",
+            "sign-in logs excluded from SIEM",
+            "alert suppression without expiry"
+          ],
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-overview"
+        },
+        {
+          "id": "hardware-backed-partitioned-signing-keys",
+          "requirement": "High-value token-signing and platform keys must be non-exportable, hardware-backed or confidential-computing protected, automatically rotated, and partitioned so one key cannot cross datacenter, tenant, environment, or service trust boundaries.",
+          "rationale": "Hardware protection and key partitioning prevent extraction and constrain the impact of key compromise.",
+          "how_to_verify": "Review signing architecture, key metadata and attestation, export policy, HSM or confidential-computing configuration, partition identifiers, rotation evidence, and prove production and non-production cannot use one another's keys.",
+          "severity": "critical",
+          "signals": [
+            "Managed HSM",
+            "RSA-HSM",
+            "hardwareProtected",
+            "non-exportable",
+            "Azure Confidential Computing",
+            "attestation",
+            "split keys",
+            "per-tenant key",
+            "per-environment key"
+          ],
+          "anti_signals": [
+            "exportable signing private key",
+            "signing key in repository",
+            "shared signing key across tenants",
+            "shared signing key across prod and test",
+            "manual signing-key rotation",
+            "software key for high-value token signing"
+          ],
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-whats-new"
+        },
+        {
+          "id": "crypto-agile-quantum-safe-pki-readiness",
+          "requirement": "The project must inventory cryptographic dependencies and certificates, avoid obsolete algorithms and protocols, centralize configurable crypto policy, and maintain a tested migration plan for post-quantum PKI and trust chains.",
+          "rationale": "Crypto agility enables urgent algorithm changes and reduces harvest-now-decrypt-later and long-lived certificate trust risks.",
+          "how_to_verify": "Search code and configuration for algorithms, key sizes, TLS versions, pinned certificates, and custom crypto; inspect certificate inventory and expiry automation; review a versioned transition plan and tests that permit algorithm replacement without protocol redesign.",
+          "severity": "medium",
+          "signals": [
+            "TLS1.2",
+            "TLS1.3",
+            "minimumTlsVersion",
+            "ES256",
+            "PS256",
+            "certificate inventory",
+            "crypto-agility",
+            "post-quantum",
+            "algorithm policy"
+          ],
+          "anti_signals": [
+            "(?i)\\bMD5\\b",
+            "(?i)\\bSHA-?1\\b",
+            "RSA 1024",
+            "\\bDES\\b",
+            "\\b3DES\\b",
+            "TLSv1.0",
+            "TLSv1.1",
+            "hardcoded cryptographic algorithm throughout business logic"
+          ],
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-whats-new"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "slug": "protect-tenants-and-isolate-systems",
+      "name": "Protect tenants and isolate systems",
+      "statement": "Minimize compromise blast radius by ensuring that tenants, environments, and systems are independently isolated and secured, with no implicit trust between them.",
+      "zero_trust": {
+        "verify_explicitly": "Apply inter-tenant authentication and authorization with explicit approval and logging.",
+        "use_least_privilege": "Limit access between environments to approved paths only.",
+        "assume_breach": "Use tenant isolation as a containment boundary."
+      },
+      "nist_csf_functions": [
+        "ID",
+        "PR",
+        "DE"
+      ],
+      "nist_csf_detail": "ID: Discover tenant and production assets; PR: Apply isolation, segmentation, and strong boundaries; DE: Look for isolation boundary violations or lateral movement.",
+      "objectives": [
+        {
+          "id": "2.1",
+          "title": "Remove legacy systems that risk security",
+          "description": "Maintain tenant security posture and commercial relationships by removing unused, aged, or legacy systems. Latest progress (July 2026): Azure Service Manager retirement and migration to Azure Resource Manager reached 100%, while 15,500 aged or unused tenants were retired in the cycle and cleanup shifted to automated lifecycle governance.",
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-whats-new"
+        },
+        {
+          "id": "2.2",
+          "title": "Secure all tenants and their resources",
+          "description": "Protect Microsoft, acquired, and employee-created tenants, commerce accounts, and tenant resources according to security best-practice baselines. Latest progress (July 2026): inventory and lifecycle coverage spans production, productivity, auxiliary, and ephemeral tenants, with ephemeral tenants lifecycle-managed using a default 90-day expiration.",
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-whats-new"
+        },
+        {
+          "id": "2.3",
+          "title": "Provide higher security for Entra ID apps",
+          "description": "Manage Microsoft Entra ID applications to a high and consistent security bar to reduce lateral-movement vectors. Latest progress (July 2026): 1.4 million unused apps were decommissioned, 86.45% of multitenant apps declare an enforced allowed-tenants list, managed-identity network restrictions reached 18.1 million, and 99.99% block production service-to-service authentication from non-production or non-Microsoft IP ranges.",
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-whats-new"
+        },
+        {
+          "id": "2.4",
+          "title": "Eliminate identity lateral movement",
+          "description": "Eliminate identity lateral-movement pivots between tenants, environments, and clouds. Latest progress (July 2026): cross-boundary credential isolation reached 98.7%, while guest invitation paths were tightened and unmanaged guest access was reduced by 228,000.",
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-whats-new"
+        },
+        {
+          "id": "2.5",
+          "title": "Continuous least-privilege enforcement",
+          "description": "Ensure continuous least-privilege access enforcement for applications and users. Latest progress (July 2026): emergency access is moving to on-demand dual-authorization Dual-Key Break Glass workflows, targeting removal of 29,000 standing break-glass accounts, and the high-privilege application reduction program is 81% complete.",
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-whats-new"
+        },
+        {
+          "id": "2.6",
+          "title": "Secure devices used for access",
+          "description": "Ensure only secure, managed, healthy devices can access tenants. Latest progress (July 2026): all Microsoft production-tenant access requires a locked-down endpoint, with 125,979 such devices deployed and 56,581 highest-risk users operating exclusively from them.",
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-whats-new"
+        }
+      ],
+      "best_practices": [
+        {
+          "practice": "Create independently isolated production, test, partner, engineering, customer, and operational tenant environments.",
+          "zero_trust": "Verify explicitly: Cross-tenant and inter-environment trust is always reauthenticated and logged. Use least privilege: Access boundaries are defined per tenant, workload, and admin role. Assume breach: Tenant isolation is a hard boundary that prevents lateral movement.",
+          "adoption_considerations": "Requires a complete tenant inventory and centralized governance; multitenant organizations might need federated identity or cross-tenant access policies; PIM and Conditional Access initially increase administrative complexity.",
+          "detailed_guidance_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-all-tenants-resources",
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-adoption"
+        },
+        {
+          "practice": "Limit or eliminate cross-tenant roles and privileged delegation; require explicit allowlists, Conditional Access, approval, and logging for necessary paths.",
+          "zero_trust": "Verify explicitly: Cross-tenant and inter-environment trust is always reauthenticated and logged. Use least privilege: Access boundaries are defined per tenant, workload, and admin role. Assume breach: Tenant isolation is a hard boundary that prevents lateral movement.",
+          "adoption_considerations": "Requires a complete tenant inventory and centralized governance; multitenant organizations might need federated identity or cross-tenant access policies; PIM and Conditional Access initially increase administrative complexity.",
+          "detailed_guidance_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/eliminate-identity-lateral-movement",
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-adoption"
+        },
+        {
+          "practice": "Require hardened, managed, compliant privileged access or secure admin workstations for tenant administration.",
+          "zero_trust": "Verify explicitly: Cross-tenant and inter-environment trust is always reauthenticated and logged. Use least privilege: Access boundaries are defined per tenant, workload, and admin role. Assume breach: Tenant isolation is a hard boundary that prevents lateral movement.",
+          "adoption_considerations": "Requires a complete tenant inventory and centralized governance; multitenant organizations might need federated identity or cross-tenant access policies; PIM and Conditional Access initially increase administrative complexity.",
+          "detailed_guidance_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-all-tenants-resources",
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-adoption"
+        },
+        {
+          "practice": "Define and enforce consistent tenant security baselines, application governance, lifecycle controls, and resource isolation policies.",
+          "zero_trust": "Verify explicitly: Cross-tenant and inter-environment trust is always reauthenticated and logged. Use least privilege: Access boundaries are defined per tenant, workload, and admin role. Assume breach: Tenant isolation is a hard boundary that prevents lateral movement.",
+          "adoption_considerations": "Requires a complete tenant inventory and centralized governance; multitenant organizations might need federated identity or cross-tenant access policies; PIM and Conditional Access initially increase administrative complexity.",
+          "detailed_guidance_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/higher-security-microsoft-entra-id-apps",
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-adoption"
+        },
+        {
+          "practice": "Enforce strict separation of identity, credential, management, and customer-data paths across environments, with no implicit trust.",
+          "zero_trust": "Verify explicitly: Cross-tenant and inter-environment trust is always reauthenticated and logged. Use least privilege: Access boundaries are defined per tenant, workload, and admin role. Assume breach: Tenant isolation is a hard boundary that prevents lateral movement.",
+          "adoption_considerations": "Requires a complete tenant inventory and centralized governance; multitenant organizations might need federated identity or cross-tenant access policies; PIM and Conditional Access initially increase administrative complexity.",
+          "detailed_guidance_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/remove-legacy-systems-that-risk-security",
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-adoption"
+        }
+      ],
+      "audit_criteria": [
+        {
+          "id": "complete-tenant-inventory-and-ownership",
+          "requirement": "Every production, productivity, auxiliary, acquired, test, partner, ephemeral, and shadow tenant and its subscriptions, applications, commerce accounts, and critical resources must be inventoried, classified, and assigned accountable owners.",
+          "rationale": "Unknown or ownerless tenants evade baselines and lifecycle controls and become durable pivot points for attackers.",
+          "how_to_verify": "Reconcile the authoritative inventory against billing, subscription, sign-in, audit, app-consent, DNS, CI/CD, and cloud-discovery data; sample records for purpose, class, owner, risk, creation date, expiration, and disposition.",
+          "severity": "high",
+          "signals": [
+            "tenant-inventory",
+            "tenantId",
+            "subscriptionId",
+            "businessPurpose",
+            "environmentClassification",
+            "expiresOn",
+            "Azure Resource Graph",
+            "CMDB"
+          ],
+          "anti_signals": [
+            "unknown tenant",
+            "owner: null",
+            "unclassified",
+            "shadow tenant",
+            "subscription without owner tags",
+            "tenant ID present in deployment config but absent from inventory"
+          ],
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-all-tenants-resources"
+        },
+        {
+          "id": "production-nonproduction-tenant-separation",
+          "requirement": "Production and non-production environments must use distinct tenant or equivalent hard isolation boundaries, identities, app registrations, credentials, vaults, administration paths, and data paths.",
+          "rationale": "Independent boundaries prevent a compromise of lower-assurance development or test systems from reaching production.",
+          "how_to_verify": "Map environment tenant IDs, subscriptions, identity providers, service principals, vaults, network paths, and pipeline deployment identities; test that a non-production identity and credential cannot authenticate to or deploy into production.",
+          "severity": "critical",
+          "signals": [
+            "prodTenantId",
+            "nonProdTenantId",
+            "separate subscriptions",
+            "environment-specific managed identity",
+            "environment-specific Key Vault",
+            "AzureADMyOrg",
+            "production boundary",
+            "ephemeral tenant"
+          ],
+          "anti_signals": [
+            "same tenantId for dev and prod",
+            "shared service principal credential across environments",
+            "shared administrator account",
+            "test app registration with production role",
+            "non-production pipeline can deploy to production",
+            "shared customer-data path"
+          ],
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-all-tenants-resources"
+        },
+        {
+          "id": "cross-tenant-deny-by-default",
+          "requirement": "Cross-tenant access, guest invitations, service-principal creation, and multitenant application authentication must be denied by default and enabled only for named tenants, identities, applications, directions, and purposes through approved, logged policy.",
+          "rationale": "Explicit cross-tenant allowlists close hidden trust paths that attackers use for identity lateral movement.",
+          "how_to_verify": "Inspect inbound and outbound cross-tenant access settings, tenant restrictions, B2B collaboration and direct-connect settings, app sign-in audiences, allowed-tenant lists, guest invitation policy, exceptions, approvals, and logs; attempt authentication from an unapproved tenant.",
+          "severity": "critical",
+          "signals": [
+            "crossTenantAccessPolicy",
+            "tenantRestrictions",
+            "allowedTenants",
+            "accessType: blocked",
+            "AzureADMyOrg",
+            "b2bCollaboration",
+            "explicit tenant allowlist",
+            "admin approval"
+          ],
+          "anti_signals": [
+            "(?i)\\ballowedtenants['\"]?\\s*:\\s*\\[\\s*['\"]\\*['\"]\\s*\\]",
+            "(?i)\\badditionallyallowedtenants['\"]?\\s*:\\s*\\[\\s*['\"]\\*['\"]\\s*\\]",
+            "authority: https://login.microsoftonline.com/common",
+            "signInAudience: AzureADMultipleOrgs without allowlist",
+            "any user can invite guests",
+            "default inbound trust allowed"
+          ],
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/eliminate-identity-lateral-movement"
+        },
+        {
+          "id": "tenant-security-baselines-policy-as-code",
+          "requirement": "Every tenant class must receive a versioned, centrally governed baseline that enforces strong authentication, blocks legacy authentication, restricts external access, requires compliant devices where appropriate, and continuously reports drift.",
+          "rationale": "Automated, consistent baselines prevent weak or forgotten tenants from becoming the easiest route into the organization.",
+          "how_to_verify": "Review baseline definitions and deployment automation, compare current tenant policy exports with the approved version, inspect exceptions and expiry, and confirm policy enforcement and drift alerts cover all inventoried tenants.",
+          "severity": "high",
+          "signals": [
+            "securityDefaultsEnabled",
+            "azuread_conditional_access_policy",
+            "block legacy authentication",
+            "require compliant device",
+            "Azure Policy initiative",
+            "Microsoft 365 Lighthouse baseline",
+            "baselineVersion",
+            "drift detection"
+          ],
+          "anti_signals": [
+            "security defaults disabled with no Conditional Access",
+            "legacy authentication allowed",
+            "baseline exception without expiry",
+            "tenant omitted from policy deployment",
+            "report-only policy indefinitely",
+            "manual baseline configuration only"
+          ],
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-all-tenants-resources"
+        },
+        {
+          "id": "continuous-least-privilege-and-dual-control",
+          "requirement": "Tenant and application privileges must be continuously reduced to necessary scope, elevated through time-bound PIM/JIT workflows, and protected by dual authorization for emergency or boundary-crossing access.",
+          "rationale": "Removing persistent high privilege and requiring a second authorized party limits account takeover, insider abuse, and unilateral break-glass misuse.",
+          "how_to_verify": "Enumerate directory, Azure, Graph, and app-role grants; identify standing privileged users and service principals; review PIM and emergency-access workflows for approval, two-person control, expiry, alerts, and periodic access reviews.",
+          "severity": "critical",
+          "signals": [
+            "roleEligibilityScheduleRequests",
+            "Privileged Identity Management",
+            "activationDuration",
+            "approvalRequired",
+            "Dual-Key Break Glass",
+            "two-person approval",
+            "accessReview",
+            "just-enough-access"
+          ],
+          "anti_signals": [
+            "permanent Global Administrator",
+            "standing break-glass account",
+            "Owner at tenant root",
+            "Directory.ReadWrite.All without justification",
+            "RoleManagement.ReadWrite.Directory without approval",
+            "emergency access by one person"
+          ],
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-whats-new"
+        },
+        {
+          "id": "entra-application-governance",
+          "requirement": "Microsoft Entra applications and service principals must have restricted creation, accountable owners, explicit assignment, minimal API permissions, governed consent, approved tenant audiences, secure credentials, Conditional Access, and automated stale-app retirement.",
+          "rationale": "Unmanaged or overprivileged identity applications create shadow infrastructure and cross-tenant pivot points.",
+          "how_to_verify": "Inventory app registrations and service principals, flag ownerless or inactive objects, inspect sign-in audience, appRoleAssignmentRequired, Graph permissions, consent grants, credentials, Conditional Access, allowed tenants, last use, and deletion or expiration workflows.",
+          "severity": "critical",
+          "signals": [
+            "appRoleAssignmentRequired: true",
+            "requiredResourceAccess",
+            "admin consent workflow",
+            "signInAudience: AzureADMyOrg",
+            "allowedTenants",
+            "Conditional Access",
+            "managed identity",
+            "lastSignInActivity"
+          ],
+          "anti_signals": [
+            "user consent unrestricted",
+            "ownerless app registration",
+            "AzureADandPersonalMicrosoftAccount without requirement",
+            "unused service principal with active credentials",
+            "Mail.ReadWrite application permission without justification",
+            "Directory.ReadWrite.All",
+            "long-lived client secret"
+          ],
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/higher-security-microsoft-entra-id-apps"
+        },
+        {
+          "id": "managed-compliant-admin-devices",
+          "requirement": "Privileged and production access must originate only from managed, healthy, compliant, locked-down administrative endpoints that are separated from everyday productivity use.",
+          "rationale": "A hardened administrative device prevents a compromised personal or productivity endpoint from becoming a tenant-control-plane pivot.",
+          "how_to_verify": "Inspect Conditional Access device filters and privileged-user scopes, Intune compliance and endpoint-security baselines, PAW/SAW inventory, admin network paths, exclusions, and sign-in logs; verify an unmanaged test device is blocked.",
+          "severity": "high",
+          "signals": [
+            "device.isCompliant",
+            "device.trustType",
+            "requireCompliantDevice",
+            "Secure Admin Workstation",
+            "Privileged Access Workstation",
+            "Intune compliance policy",
+            "deviceFilter",
+            "locked-down endpoint"
+          ],
+          "anti_signals": [
+            "admin access from unmanaged device",
+            "privileged users excluded from device policy",
+            "personal device allowed for production administration",
+            "shared admin workstation",
+            "compliance control in report-only mode",
+            "browser-only exception without expiry"
+          ],
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-all-tenants-resources"
+        },
+        {
+          "id": "tenant-lifecycle-and-legacy-retirement",
+          "requirement": "Tenant and application creation must be governed and attributable; ephemeral environments must expire by default within 90 days; unused, insecure, unsanctioned, and legacy tenants and platforms must be quarantined, modernized, or automatically retired.",
+          "rationale": "Lifecycle limits prevent abandoned environments, classic administration mechanisms, stale apps, and unmanaged credentials from persisting as attack surface.",
+          "how_to_verify": "Review tenant creation approvals, owner attribution, expiration and extension policy, automated usage checks and deletion workflows, quarantine controls, recent retirements, and scan IaC and APIs for classic Azure Service Manager resources or legacy authentication.",
+          "severity": "high",
+          "signals": [
+            "expiresOn",
+            "90-day expiration",
+            "creation approval",
+            "owner attribution",
+            "scream test",
+            "quarantine",
+            "automated retirement",
+            "Azure Resource Manager",
+            "Microsoft.Resources/deployments"
+          ],
+          "anti_signals": [
+            "Microsoft.ClassicCompute",
+            "Microsoft.ClassicNetwork",
+            "management certificate",
+            "management.core.windows.net",
+            "ephemeral tenant without expiration",
+            "unused tenant with recent privileged credentials",
+            "unrestricted tenant creation"
+          ],
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/remove-legacy-systems-that-risk-security"
+        },
+        {
+          "id": "cross-boundary-credential-isolation",
+          "requirement": "Credentials, certificates, signing keys, managed identities, app registrations, and token-issuance trust must be unique to and constrained within their tenant, cloud, and environment boundary.",
+          "rationale": "Credential isolation prevents a secret or token obtained in one boundary from recreating identity or authenticating in another.",
+          "how_to_verify": "Compare credential and key identifiers across environments, inspect federated credential issuer/subject/audience, tenant-specific authority and allowed-tenant configuration, vault separation, and test that non-production credentials fail against production.",
+          "severity": "critical",
+          "signals": [
+            "environment-specific clientId",
+            "environment-specific Key Vault URI",
+            "AZURE_TENANT_ID",
+            "federatedIdentityCredentials",
+            "subject",
+            "audiences: api://AzureADTokenExchange",
+            "allowedTenants",
+            "per-tenant certificate"
+          ],
+          "anti_signals": [
+            "same client secret in prod and nonprod",
+            "same signing certificate across tenants",
+            "(?i)\\badditionallyallowedtenants['\"]?\\s*:\\s*\\[\\s*['\"]\\*['\"]\\s*\\]",
+            "common authority for tenant-bound service",
+            "shared service principal across cloud boundaries",
+            "token accepted without tenant claim check"
+          ],
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/eliminate-identity-lateral-movement"
+        },
+        {
+          "id": "tenant-boundary-violation-monitoring",
+          "requirement": "Cross-tenant sign-ins, guest invitations, app consent, service-principal changes, privilege changes, blocked boundary access, and dormant-account activity must be centrally logged and monitored with actionable detections.",
+          "rationale": "Isolation is incomplete without detection of attempted or successful boundary violations and identity-based lateral movement.",
+          "how_to_verify": "Trace these event classes from each tenant into the SIEM, inspect detection rules and response ownership, verify retention and investigator access, and generate a safe test event such as a blocked sign-in from an unapproved tenant.",
+          "severity": "high",
+          "signals": [
+            "CrossTenantAccessActivity",
+            "SignInLogs",
+            "ServicePrincipalSignInLogs",
+            "AuditLogs",
+            "Invitation",
+            "Consent to application",
+            "Add member to role",
+            "Microsoft Sentinel analytics rule",
+            "access review"
+          ],
+          "anti_signals": [
+            "tenant logs not centralized",
+            "guest invitation alerts absent",
+            "app consent not monitored",
+            "blocked cross-tenant attempts discarded",
+            "dormant accounts excluded from review",
+            "audit retention disabled"
+          ],
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-all-tenants-resources"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "slug": "protect-networks",
+      "name": "Protect networks",
+      "statement": "Limit lateral movement and unauthorized access by means of granular network segmentation and identity-aware connectivity.",
+      "zero_trust": {
+        "verify_explicitly": "Shift from implicit network trust to policy-based, identity-verified connections.",
+        "use_least_privilege": "Enforce micro-segmentation and just-enough access for workloads and endpoints.",
+        "assume_breach": "Treat every network zone as potentially hostile. Isolate high-value assets and enforce strict egress control."
+      },
+      "nist_csf_functions": [
+        "ID",
+        "PR"
+      ],
+      "nist_csf_detail": "ID: Inventory and understand networking assets; PR: Apply network security controls (segmentation, encryption, etc.).",
+      "objectives": [
+        {
+          "id": "3.1",
+          "title": "Inventory and security standards",
+          "description": "Secure production networks and connected systems with accurate inventory, complete device lifecycle management, and consistently enforced baselines. Latest progress (July 2026): centralized telemetry and lifecycle controls provide effectively complete production-network visibility, while centralized authentication, authorization, and accounting, IPv4/IPv6 ACLs, and per-device keys are consistently enforced; the objective is transitioning to steady-state regression prevention.",
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-whats-new"
+        },
+        {
+          "id": "3.2",
+          "title": "Network isolation",
+          "description": "Apply identity-aware network isolation and microsegmentation to production environments as additional defense layers. Latest progress (July 2026): policy-driven isolation covers 4.36 million resources in learning mode and about 1 million in enforced mode; public access was removed from 732,000 resources, permissive rules are being replaced, and segmentation is expanding beyond critical services.",
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-whats-new"
+        },
+        {
+          "id": "3.3",
+          "title": "Secure customer cloud networks",
+          "description": "Strengthen network defenses with modern firewalling, segmentation policy, and platform enforcement so only authorized traffic flows and breaches are contained. Latest progress (July 2026): Azure provides integrated logical isolation boundaries around PaaS resources with traffic-pattern learning windows, with ongoing work to expand adoption and align secure deployment baselines.",
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-whats-new"
+        }
+      ],
+      "best_practices": [
+        {
+          "practice": "Implement macro- and microsegmentation across networks and subnets, separating production, administration, engineering, corporate, and PaaS service boundaries.",
+          "zero_trust": "Verify explicitly: Every connection is authenticated, authorized, and encrypted. Use least privilege: Access is granted only to required services or segments. Assume breach: Network segmentation and monitoring detect and contain lateral movement.",
+          "adoption_considerations": "Requires deep understanding of traffic flows because segmentation can disrupt legacy integrations; ZTNA rollout requires retraining VPN users; network telemetry adds SIEM cost and storage overhead.",
+          "detailed_guidance_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/network-isolation",
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-adoption"
+        },
+        {
+          "practice": "Restrict administrative access through private connectivity such as Private Link and Azure Bastion with just-in-time authorization; do not expose management interfaces publicly.",
+          "zero_trust": "Verify explicitly: Every connection is authenticated, authorized, and encrypted. Use least privilege: Access is granted only to required services or segments. Assume breach: Network segmentation and monitoring detect and contain lateral movement.",
+          "adoption_considerations": "Requires deep understanding of traffic flows because segmentation can disrupt legacy integrations; ZTNA rollout requires retraining VPN users; network telemetry adds SIEM cost and storage overhead.",
+          "detailed_guidance_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/network-isolation",
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-adoption"
+        },
+        {
+          "practice": "Implement continuous network-session validation tied to current identity, device, location, and risk state.",
+          "zero_trust": "Verify explicitly: Every connection is authenticated, authorized, and encrypted. Use least privilege: Access is granted only to required services or segments. Assume breach: Network segmentation and monitoring detect and contain lateral movement.",
+          "adoption_considerations": "Requires deep understanding of traffic flows because segmentation can disrupt legacy integrations; ZTNA rollout requires retraining VPN users; network telemetry adds SIEM cost and storage overhead.",
+          "detailed_guidance_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/network-isolation",
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-adoption"
+        },
+        {
+          "practice": "Use Secure Access Service Edge and Zero Trust Network Access for identity-aware, policy-based connectivity instead of granting broad trust through traditional VPNs.",
+          "zero_trust": "Verify explicitly: Every connection is authenticated, authorized, and encrypted. Use least privilege: Access is granted only to required services or segments. Assume breach: Network segmentation and monitoring detect and contain lateral movement.",
+          "adoption_considerations": "Requires deep understanding of traffic flows because segmentation can disrupt legacy integrations; ZTNA rollout requires retraining VPN users; network telemetry adds SIEM cost and storage overhead.",
+          "detailed_guidance_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/network-isolation",
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-adoption"
+        },
+        {
+          "practice": "Use threat-intelligence-enabled firewalls, strict egress controls, and centralized Defender or equivalent network telemetry and logging.",
+          "zero_trust": "Verify explicitly: Every connection is authenticated, authorized, and encrypted. Use least privilege: Access is granted only to required services or segments. Assume breach: Network segmentation and monitoring detect and contain lateral movement.",
+          "adoption_considerations": "Requires deep understanding of traffic flows because segmentation can disrupt legacy integrations; ZTNA rollout requires retraining VPN users; network telemetry adds SIEM cost and storage overhead.",
+          "detailed_guidance_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/network-isolation",
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-adoption"
+        }
+      ],
+      "audit_criteria": [
+        {
+          "id": "complete-network-asset-inventory",
+          "requirement": "All cloud, on-premises, hybrid, and edge network assets and relationships must be represented in a current inventory with owner, environment, purpose, exposure, lifecycle, and enforced baseline status.",
+          "rationale": "Segmentation and policy cannot reliably protect unknown interfaces, routes, firewalls, devices, public addresses, or unmanaged network paths.",
+          "how_to_verify": "Reconcile IaC and cloud inventory against VNets, subnets, peerings, route tables, NSGs, firewalls, load balancers, public IPs, private endpoints, gateways, DNS, Kubernetes networks, physical devices, and flow telemetry; sample records for ownership and freshness.",
+          "severity": "high",
+          "signals": [
+            "network-inventory",
+            "Microsoft.Network/virtualNetworks",
+            "networkSecurityGroups",
+            "routeTables",
+            "azureFirewalls",
+            "publicIPAddresses",
+            "privateEndpoints",
+            "owner tag",
+            "environment tag",
+            "Azure Resource Graph"
+          ],
+          "anti_signals": [
+            "public IP absent from inventory",
+            "owner: null",
+            "unmanaged network device",
+            "unknown peering",
+            "manual firewall outside source control",
+            "stale inventory timestamp"
+          ],
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-whats-new"
+        },
+        {
+          "id": "deny-by-default-network-segmentation",
+          "requirement": "Networks must be macro- and microsegmented by trust, environment, workload, data sensitivity, and administration plane, with deny-by-default east-west controls and only documented least-privilege flows allowed.",
+          "rationale": "Granular isolation contains compromise and prevents broad lateral movement across flat or implicitly trusted networks.",
+          "how_to_verify": "Review architecture and IaC for subnet and workload boundaries, NSG/ACL/firewall and Kubernetes or service-mesh policy, default-deny behavior, rule ownership and expiry; use reachability analysis and tests to prove unauthorized east-west paths fail.",
+          "severity": "critical",
+          "signals": [
+            "securityRules",
+            "access: Deny",
+            "DenyAllInbound",
+            "DenyAllOutBound",
+            "kind: NetworkPolicy",
+            "(?i)policytypes\\s*:\\s*\\[[^\\]]*egress",
+            "namespaceSelector",
+            "AuthorizationPolicy",
+            "microsegmentation",
+            "network security perimeter"
+          ],
+          "anti_signals": [
+            "allow 0.0.0.0/0 inbound",
+            "sourceAddressPrefix: * with access Allow",
+            "destinationAddressPrefix: * with access Allow",
+            "flat network",
+            "Kubernetes namespace without default-deny policy",
+            "any-to-any east-west rule",
+            "prod and dev on unrestricted subnet"
+          ],
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/network-isolation"
+        },
+        {
+          "id": "private-management-and-paas-access",
+          "requirement": "Management interfaces and sensitive PaaS resources must use private endpoints or protected management services, with public network access disabled and administrative access authorized just in time.",
+          "rationale": "Removing direct internet exposure reduces credential attacks and forces sensitive access through monitored, identity-aware control points.",
+          "how_to_verify": "Enumerate public IPs and PaaS public endpoints, inspect Private Link, network security perimeter, Bastion and JIT configuration, firewall defaults and DNS resolution, and attempt access from an untrusted external network.",
+          "severity": "critical",
+          "signals": [
+            "publicNetworkAccess: Disabled",
+            "privateEndpointConnections",
+            "Microsoft.Network/privateEndpoints",
+            "Microsoft.Network/bastionHosts",
+            "justInTimeAccessPolicies",
+            "networkAcls.defaultAction: Deny",
+            "privatelink.",
+            "disablePasswordAuthentication: true"
+          ],
+          "anti_signals": [
+            "publicNetworkAccess: Enabled",
+            "0.0.0.0/0 to port 22",
+            "0.0.0.0/0 to port 3389",
+            "VM public IP for administration",
+            "PaaS firewall default Allow",
+            "Allow Azure services bypass without justification"
+          ],
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/network-isolation"
+        },
+        {
+          "id": "identity-aware-encrypted-connectivity",
+          "requirement": "Every connection must be authenticated and authorized from identity, device, workload, and risk context and encrypted with modern protocols; network location alone must never establish trust.",
+          "rationale": "Identity-aware ZTNA and strong encryption prevent implicit VPN or subnet trust, credential replay, interception, and unauthorized protocol use.",
+          "how_to_verify": "Trace representative user, service, and admin connections through ZTNA, proxy, gateway, mesh, and application policies; inspect mTLS/TLS settings and identity bindings; test anonymous, wrong-identity, noncompliant-device, and obsolete-protocol access.",
+          "severity": "high",
+          "signals": [
+            "Zero Trust Network Access",
+            "Global Secure Access",
+            "Conditional Access",
+            "PeerAuthentication",
+            "mtls.mode: STRICT",
+            "minimumTlsVersion: TLS1_2",
+            "clientCertificateMode",
+            "workload identity",
+            "identity-aware proxy"
+          ],
+          "anti_signals": [
+            "trust based only on source subnet",
+            "HTTP backend for sensitive traffic",
+            "TLSv1.0",
+            "TLSv1.1",
+            "sslPolicy: legacy",
+            "shared VPN grants full network access",
+            "anonymous internal service access"
+          ],
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/network-isolation"
+        },
+        {
+          "id": "strict-default-deny-egress",
+          "requirement": "Workload and endpoint egress must be denied by default and restricted through centrally governed firewalls, proxies, routes, FQDN or service-tag allowlists, and private endpoints, with approved destinations and logged exceptions.",
+          "rationale": "Strict egress limits command-and-control, data exfiltration, malicious package retrieval, and attacker movement from a compromised zone.",
+          "how_to_verify": "Inspect subnet routing, firewall application and network rules, Kubernetes egress policies, proxy settings, default outbound access, DNS controls, exception owners and expiry; test an unlisted internet destination from each trust zone.",
+          "severity": "critical",
+          "signals": [
+            "defaultOutboundAccess: false",
+            "AzureFirewall",
+            "firewallPolicies",
+            "applicationRuleCollections",
+            "fullyQualifiedDomainNames",
+            "serviceTags",
+            "nextHopType: VirtualAppliance",
+            "policyTypes: Egress",
+            "egress gateway",
+            "private endpoint"
+          ],
+          "anti_signals": [
+            "allow 0.0.0.0/0 egress",
+            "(?i)\\bdestinationaddresses['\"]?\\s*:\\s*\\[\\s*['\"]\\*['\"]\\s*\\]",
+            "unrestricted internet egress",
+            "default outbound access enabled",
+            "Kubernetes egress omitted",
+            "direct internet route bypasses firewall",
+            "egress exception without owner or expiry"
+          ],
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/network-isolation"
+        },
+        {
+          "id": "centralized-layered-firewall-policy",
+          "requirement": "Internet, inter-segment, and high-value resource boundaries must use centrally managed, layered firewall and security-admin policy with threat intelligence, WAF, and DDoS controls where applicable.",
+          "rationale": "Layered, centrally governed controls provide consistent prevention and rapid threat-intelligence updates across large network estates.",
+          "how_to_verify": "Review Azure Firewall or equivalent policies, Virtual Network Manager security admin rules, WAF and DDoS plans, threat-intelligence mode, policy inheritance and bypasses; compare deployed rules with the approved baseline and test a known-safe blocked indicator.",
+          "severity": "high",
+          "signals": [
+            "Microsoft.Network/firewallPolicies",
+            "threatIntelMode: Deny",
+            "threatIntelMode: Alert",
+            "Microsoft.Network/networkManagers/securityAdminConfigurations",
+            "WebApplicationFirewall",
+            "DDoSProtectionPlans",
+            "security admin rules",
+            "policy inheritance"
+          ],
+          "anti_signals": [
+            "threatIntelMode: Off",
+            "firewall bypass: *",
+            "WAF disabled on public web application",
+            "DetectionOnly indefinitely",
+            "local rule overrides central deny",
+            "unreviewed broad service-tag allow"
+          ],
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/network-isolation"
+        },
+        {
+          "id": "continuous-network-session-evaluation",
+          "requirement": "Long-lived user and workload network sessions must be continuously reevaluated against identity, device, location, and risk state and terminated or restricted when trust changes.",
+          "rationale": "Continuous evaluation closes the gap between initial authentication and later account compromise, revocation, device noncompliance, or elevated risk.",
+          "how_to_verify": "Inspect Conditional Access session controls, CAE-capable client and resource configuration, ZTNA policy, token challenge handling, revocation propagation, and session lifetime; test user disablement or risk escalation during an active session.",
+          "severity": "high",
+          "signals": [
+            "Continuous Access Evaluation",
+            "xms_cc",
+            "signInFrequency",
+            "persistentBrowser",
+            "Conditional Access session controls",
+            "riskLevel",
+            "device compliance",
+            "session revocation"
+          ],
+          "anti_signals": [
+            "never-expiring network session",
+            "VPN authorization checked only at connect time",
+            "revoked identity remains connected",
+            "device compliance ignored after login",
+            "long-lived bearer token without CAE",
+            "session control disabled"
+          ],
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-adoption"
+        },
+        {
+          "id": "centralized-network-telemetry-and-detection",
+          "requirement": "Network, firewall, DNS, proxy, gateway, private-endpoint, identity, and device activity must be centrally logged and correlated with threat intelligence and behavioral detection for lateral movement and anomalous egress.",
+          "rationale": "Visibility and correlation are required to detect policy violations, reconnaissance, command-and-control, exfiltration, and movement between segments.",
+          "how_to_verify": "Inspect diagnostic settings and SIEM connectors for each network control, verify useful fields and time synchronization, retention and access, review detections and response ownership, and generate safe denied-flow, DNS, and cross-segment test events.",
+          "severity": "high",
+          "signals": [
+            "AZFWNetworkRule",
+            "AZFWApplicationRule",
+            "AZFWThreatIntel",
+            "AzureFirewallDnsProxy",
+            "NetworkSecurityGroupEvent",
+            "virtual network flow logs",
+            "DDoSProtectionNotifications",
+            "Microsoft Defender for Cloud",
+            "Microsoft Sentinel",
+            "diagnosticSettings"
+          ],
+          "anti_signals": [
+            "firewall logging disabled",
+            "DNS logs absent",
+            "retentionInDays: 0",
+            "network logs excluded from SIEM",
+            "allowed traffic only with no denied-flow logs",
+            "no lateral-movement detection",
+            "telemetry bypass for privileged subnet"
+          ],
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/network-isolation"
+        },
+        {
+          "id": "secure-segmented-hybrid-connectivity",
+          "requirement": "Cloud, on-premises, branch, partner, and multicloud links must use encrypted, authenticated connectivity with segmented route domains and explicit traffic policy; connectivity must not extend implicit trust or unrestricted route propagation.",
+          "rationale": "A secure tunnel without segmentation can still turn one compromised site or cloud into a path across the entire estate.",
+          "how_to_verify": "Inspect ExpressRoute, VPN, Virtual WAN, peering, transit, BGP and route-table configuration, IPsec/IKE policy, shared-key handling, hub firewall insertion, partner routes, and propagation labels; test prohibited cross-segment routes.",
+          "severity": "high",
+          "signals": [
+            "ExpressRoute private peering",
+            "Virtual WAN hub",
+            "hub-spoke",
+            "routingIntent",
+            "routeTableLabels",
+            "IPsec",
+            "IKEv2",
+            "private connectivity",
+            "hub firewall",
+            "segmented route tables"
+          ],
+          "anti_signals": [
+            "AllowForwardedTraffic with unrestricted routes",
+            "any-to-any peering",
+            "propagate all routes to all segments",
+            "partner network trusted implicitly",
+            "VPN pre-shared key committed to repository",
+            "unencrypted hybrid link",
+            "firewall bypass through peering"
+          ],
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/network-isolation"
+        },
+        {
+          "id": "network-policy-as-code-and-drift-prevention",
+          "requirement": "Network resources and policy must be deployed from reviewed, versioned IaC with automated checks that block public exposure, permissive rules, missing segmentation, and drift from secure baselines.",
+          "rationale": "Automation makes isolation durable at scale and prevents manual changes or regressions from silently reopening lateral-movement paths.",
+          "how_to_verify": "Review IaC coverage, CODEOWNERS and approvals for network modules, CI policy tests and deployment gates, Azure Policy or equivalent deny effects, drift reconciliation, exception suppression and expiry; introduce a safe permissive test rule and confirm blocking.",
+          "severity": "medium",
+          "signals": [
+            "resource \"",
+            "Microsoft.Network/",
+            "CODEOWNERS",
+            "Azure Policy effect: deny",
+            "OPA",
+            "Conftest",
+            "PSRule for Azure",
+            "Checkov",
+            "terraform plan",
+            "az deployment what-if"
+          ],
+          "anti_signals": [
+            "manual portal-only network change",
+            "Azure Policy effect: audit only for critical control",
+            "skip_check",
+            "checkov:skip without expiry",
+            "ignore_changes on security rules",
+            "permissive rule accepted without approval",
+            "drift detection disabled"
+          ],
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/network-isolation"
+        }
+      ]
+    }
+  ],
+  "_fetch_notes": "All four requested sources were fetched successfully on 2026-07-24. The Trust Center patterns page renders its catalog client-side; its same-origin cascadecontent JSON feed was also fetched to recover the identity, tenant, and network guidance cards. Microsoft notes that detailed pattern articles are still being published over time, so objectives without a dedicated article use the adoption or latest-progress page as guidance. The linked July 2026 PDF was not needed because the requested What's New page exposed the current objective progress in HTML."
+}

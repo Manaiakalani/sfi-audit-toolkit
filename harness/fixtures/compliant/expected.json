@@ -1,0 +1,21 @@
+{
+  "fixture": "compliant",
+  "description": "SFI-aligned sample project; should audit cleanly with no automated violations.",
+  "overall": {
+    "allowed_grades": ["A", "B"],
+    "min_score": 90,
+    "max_failed": 0
+  },
+  "must_pass": [
+    "protect-identities-and-secrets/no-tracked-env-files",
+    "protect-identities-and-secrets/no-hardcoded-or-committed-secrets",
+    "protect-identities-and-secrets/managed-and-short-lived-workload-identities",
+    "protect-identities-and-secrets/secrets-and-keys-in-hardened-vaults",
+    "protect-engineering-systems/pin-ci-actions-to-sha",
+    "protect-engineering-systems/pin-dependency-versions",
+    "protect-engineering-systems/require-code-owner-review",
+    "protect-networks/private-management-and-paas-access",
+    "accelerate-response-and-remediation/security-policy-present"
+  ],
+  "must_fail": []
+}

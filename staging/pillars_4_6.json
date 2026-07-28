@@ -1,0 +1,317 @@
+{
+  "pillars": [
+    {
+      "id": 4,
+      "slug": "protect-engineering-systems",
+      "name": "Protect engineering systems",
+      "statement": "Secure the entire software development lifecycle (SDLC) and delivery lifecycle by ensuring that code, build systems, and pipelines are tamper-resistant, auditable, and trustworthy.",
+      "zero_trust": {
+        "verify_explicitly": "Authenticate every action in the SDLC, from code commits to builds, with traceable, signed identities.",
+        "use_least_privilege": "Restrict developer, agent, and pipeline access based on role and build context.",
+        "assume_breach": "Segregate build systems and enforce code signed and reproducible builds to prevent tampering."
+      },
+      "nist_csf_functions": [
+        "ID",
+        "PR",
+        "GV"
+      ],
+      "nist_csf_detail": "ID: Understand build/test/deployment systems and dependencies; PR: Secure software pipelines, development tooling and artifacts; GV: Apply engineering policies, standards, secure design.",
+      "objectives": [
+        {
+          "id": "4.1",
+          "title": "Complete software asset inventory",
+          "description": "Build and maintain an inventory of software assets used to deploy Microsoft products and services.",
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-whats-new"
+        },
+        {
+          "id": "4.2",
+          "title": "Zero trust for source code access",
+          "description": "Ensure secure access to source code and engineering systems infrastructure with Zero Trust principles and least-privilege access policies.",
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-whats-new"
+        },
+        {
+          "id": "4.3",
+          "title": "Secure code deployment",
+          "description": "Protect source code that deploys Microsoft production environments with security best practices.",
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-whats-new"
+        },
+        {
+          "id": "4.4",
+          "title": "Standardize secure development pipelines",
+          "description": "Secure development, build, test, and release environments with standardized, governed pipelines, and infrastructure isolation.",
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-whats-new"
+        },
+        {
+          "id": "4.5",
+          "title": "Protect the software supply chain",
+          "description": "Secure the software supply chain to protect Microsoft production environments.",
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-whats-new"
+        }
+      ],
+      "best_practices": [
+        {
+          "practice": "Run builds in secure isolated environments.",
+          "zero_trust": "Assume breach: Treat build and repo systems as potential targets. Isolate and monitor them.",
+          "adoption_considerations": "High load of upfront work to modernize pipelines and dependency tracking.",
+          "detailed_guidance_url": "/en-us/security/zero-trust/sfi/standardize-secure-development-pipelines",
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-adoption"
+        },
+        {
+          "practice": "Require verified build provenance and signed artifacts.",
+          "zero_trust": "Verify explicitly: Authenticate all code commits, build actions, and releases.",
+          "adoption_considerations": "Handling legacy build tools that might not support signing or SBOM formats.",
+          "detailed_guidance_url": "/en-us/security/zero-trust/sfi/protect-software-supply-chain",
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-adoption"
+        },
+        {
+          "practice": "Integrate secrets scanning and SAST/DAST tools into CI/CD pipelines for code scanning.",
+          "zero_trust": "Verify explicitly: Authenticate all code commits, build actions, and releases.",
+          "adoption_considerations": "Added build-time complexity for artifact signing that significantly improves traceability.",
+          "detailed_guidance_url": "/en-us/security/zero-trust/sfi/standardize-secure-development-pipelines",
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-adoption"
+        }
+      ],
+      "audit_criteria": [
+        {
+          "id": "require-code-approval",
+          "requirement": "Code changes must require multiple trusted approvers",
+          "rationale": "Prevents unauthorized or malicious code from being merged without peer oversight.",
+          "how_to_verify": "Check branch protection rules for PR review requirements and CODEOWNERS enforcement.",
+          "severity": "critical",
+          "signals": ["branch_protection", "CODEOWNERS", "pull_request_reviews"],
+          "anti_signals": ["allow_force_pushes", "admin_can_bypass_review"],
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-adoption"
+        },
+        {
+          "id": "secret-scanning-ci",
+          "requirement": "Pipelines must scan for leaked secrets and code vulnerabilities",
+          "rationale": "Prevents sensitive credentials and vulnerable code from reaching production.",
+          "how_to_verify": "Check CI/CD configurations for SAST, DAST, and secret scanning tasks.",
+          "severity": "critical",
+          "signals": ["github/codeql-action", "trivy", "secret-scanning"],
+          "anti_signals": ["# no security scanner configured"],
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-adoption"
+        },
+        {
+          "id": "pipeline-least-privilege",
+          "requirement": "Pipelines must run with least privilege access",
+          "rationale": "Limits blast radius if a pipeline is compromised.",
+          "how_to_verify": "Check pipeline definitions for minimal permission scopes rather than global write access.",
+          "severity": "high",
+          "signals": ["permissions: contents: read", "id-token: write"],
+          "anti_signals": ["permissions: write-all"],
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-whats-new"
+        },
+        {
+          "id": "trusted-dependencies",
+          "requirement": "Dependencies must be pinned and trusted",
+          "rationale": "Prevents supply chain attacks via malicious package updates.",
+          "how_to_verify": "Check for lockfiles and pinned versions in package manifests.",
+          "severity": "high",
+          "signals": ["\"integrity\": \"sha", "--hash=sha256", "content-hash", "\"lockfileVersion\""],
+          "anti_signals": ["\"\\s*:\\s*\"[\\^~]\\d", "\"\\s*:\\s*\"\\*\"", "[:@]\\s*[\"']?latest\\b"],
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-adoption"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "slug": "monitor-and-detect-threats",
+      "name": "Monitor and detect threats",
+      "statement": "Quickly detect, correlate, and prioritize security threats across Microsoft systems by unifying telemetry and analytics.",
+      "zero_trust": {
+        "verify_explicitly": "Use telemetry-driven, continuous validation of user, device, and workload behavior.",
+        "use_least_privilege": "Enforce adaptive access control with detection and dynamic conditional access policies.",
+        "assume_breach": "Detect anomalies and behavior deviations on the premise that attackers might already have access to resources."
+      },
+      "nist_csf_functions": [
+        "ID",
+        "PR",
+        "DE",
+        "RS"
+      ],
+      "nist_csf_detail": "ID: Maintain awareness of all monitored systems; PR: Ensure protective controls generate telemetry; DE: Analyze logs and alerts to identity threats; RS: Detect trigger response workflows.",
+      "objectives": [
+        {
+          "id": "5.1",
+          "title": "Complete production infrastructure inventory",
+          "description": "Maintain a current resource inventory across Microsoft production infrastructure and services.",
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-whats-new"
+        },
+        {
+          "id": "5.2",
+          "title": "Standardize security log retention",
+          "description": "Retain security logs for at least two years, and make six months of appropriate logs available.",
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-whats-new"
+        },
+        {
+          "id": "5.3",
+          "title": "Centralize access to security logs",
+          "description": "Ensure security logs are accessible from a central data lake for efficient and effective investigation and threat hunting.",
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-whats-new"
+        },
+        {
+          "id": "5.4",
+          "title": "Detect and respond quickly",
+          "description": "Detect and respond automatically to anomalous access, behavior, and configurations across Microsoft production infrastructure and services.",
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-whats-new"
+        }
+      ],
+      "best_practices": [
+        {
+          "practice": "Centralize logs (identity, Key Vault, network, endpoint, etc.) into Microsoft Sentinel or another SIEM.",
+          "zero_trust": "Verify explicitly: Continuous validation of behavior and state against normal baselines.",
+          "adoption_considerations": "Costs for licensing and ingestion volume for Sentinel/SIEM.",
+          "detailed_guidance_url": "/en-us/security/zero-trust/sfi/centralize-access-to-security-logs",
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-adoption"
+        },
+        {
+          "practice": "Use analytics and ML-based threat detection for abnormal behavior.",
+          "zero_trust": "Assume breach: Assume that attackers might already have access, and detect attack movement quickly.",
+          "adoption_considerations": "Ongoing tuning to avoid alert fatigue. Continuous refinement and analyst training.",
+          "detailed_guidance_url": "/en-us/security/zero-trust/sfi/rapid-anomaly-detection-response",
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-adoption"
+        }
+      ],
+      "audit_criteria": [
+        {
+          "id": "centralized-logging",
+          "requirement": "Logs must be centrally collected and retained.",
+          "rationale": "Essential for retrospective threat hunting and incident investigation.",
+          "how_to_verify": "Check infrastructure as code for log analytics workspaces and diagnostic settings.",
+          "severity": "critical",
+          "signals": ["diagnostic_settings", "log_analytics_workspace", "splunk", "datadog"],
+          "anti_signals": ["# local logging only", "audit_logs_disabled"],
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-adoption"
+        },
+        {
+          "id": "alerting-configured",
+          "requirement": "Threat detection and alerting must be configured for critical resources.",
+          "rationale": "Enables rapid response to anomalous behavior.",
+          "how_to_verify": "Check for monitor alerts and scheduled query rules.",
+          "severity": "high",
+          "signals": ["azurerm_monitor_scheduled_query_rules_alert", "cloudwatch_metric_alarm"],
+          "anti_signals": ["# no alerts defined"],
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-adoption"
+        },
+        {
+          "id": "telemetry-coverage",
+          "requirement": "Services must emit telemetry indicating security context.",
+          "rationale": "Baseline behavior modeling requires complete telemetry data.",
+          "how_to_verify": "Review application code for OpenTelemetry or Application Insights integration.",
+          "severity": "medium",
+          "signals": ["opentelemetry", "appinsights", "tracing"],
+          "anti_signals": ["console.log", "(?i)\\bprint\\("],
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-whats-new"
+        },
+        {
+          "id": "ai-threat-modeling",
+          "requirement": "AI systems must be threat modeled and monitored.",
+          "rationale": "New threat patterns like prompt injection must be detected.",
+          "how_to_verify": "Check for AI threat modeling artifacts and specific AI monitoring rules.",
+          "severity": "high",
+          "signals": ["threat-model", "ai-observability", "prompt-injection-detection"],
+          "anti_signals": ["# unmonitored AI endpoint"],
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-whats-new"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "slug": "accelerate-response-and-remediation",
+      "name": "Accelerate response and remediation",
+      "statement": "Minimize the impact and duration of security incidents with automation, coordinated response, and continuous learning.",
+      "zero_trust": {
+        "verify_explicitly": "Continuously reassess trust in identities, devices, and systems after detection events.",
+        "use_least_privilege": "Automate token revocation, key rotation, and access removal during incidents.",
+        "assume_breach": "Assume compromise and contain, then automate remediation."
+      },
+      "nist_csf_functions": [
+        "ID",
+        "RC",
+        "RS",
+        "GV"
+      ],
+      "nist_csf_detail": "RS: Detect trigger response workflows; RC: Restore secure operations after incidents. Remediate vulnerabilities and ensure resilience.",
+      "objectives": [
+        {
+          "id": "6.1",
+          "title": "Accelerate vulnerability mitigation",
+          "description": "Reduce \"Time to Mitigation\" for high-severity cloud security vulnerabilities with accelerated response.",
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-whats-new"
+        },
+        {
+          "id": "6.2",
+          "title": "Advance transparency of cloud vulnerabilities",
+          "description": "Increase transparency of mitigated cloud vulnerabilities with the adoption and release of Common Weakness Enumeration (CWE) and Common Platform Enumeration (CPE) industry standards.",
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-whats-new"
+        },
+        {
+          "id": "6.3",
+          "title": "Enhance public messaging and engagement",
+          "description": "Improve the accuracy, effectiveness, transparency, and velocity of public messaging and customer engagement.",
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-whats-new"
+        }
+      ],
+      "best_practices": [
+        {
+          "practice": "Develop and test incident response playbooks for common attack types.",
+          "zero_trust": "Assume breach: Treat every incident as a catalyst for architectural and procedural hardening.",
+          "adoption_considerations": "Disciplined coordination is needed between the security operations center (SOC), engineering, and leadership.",
+          "detailed_guidance_url": "/en-us/security/zero-trust/sfi/accelerate-vulnerability-mitigation",
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-adoption"
+        },
+        {
+          "practice": "Automate token revocation, key rotation, and account disablement workflows.",
+          "zero_trust": "Use least privilege: Automate containment by restricting or removing access rapidly.",
+          "adoption_considerations": "Automation of remediation actions must balance speed and risk of disruption.",
+          "detailed_guidance_url": "/en-us/security/zero-trust/sfi/accelerate-vulnerability-mitigation",
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-adoption"
+        }
+      ],
+      "audit_criteria": [
+        {
+          "id": "incident-response-playbooks",
+          "requirement": "Repositories must contain incident response playbooks/runbooks.",
+          "rationale": "Ensures teams know what to do during a security event.",
+          "how_to_verify": "Scan repository for runbooks and incident response documentation.",
+          "severity": "high",
+          "signals": ["docs/runbooks", "incident_response.md", "SECURITY.md"],
+          "anti_signals": ["# no security contacts"],
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-adoption"
+        },
+        {
+          "id": "automated-containment",
+          "requirement": "Automated containment scripts/tools must be present.",
+          "rationale": "Minimizes incident duration via rapid revocation and isolation.",
+          "how_to_verify": "Check for automated revocation logic or SOAR playbook definitions.",
+          "severity": "medium",
+          "signals": ["revoke_tokens.sh", "rotate_keys.ps1", "soar-workflow"],
+          "anti_signals": ["# manual steps only"],
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-adoption"
+        },
+        {
+          "id": "vulnerability-scanning-enforcement",
+          "requirement": "Vulnerabilities must be automatically identified and blocked or mitigated.",
+          "rationale": "Reduces time to mitigation for known vulnerabilities.",
+          "how_to_verify": "Check for dependabot or renovate configured with auto-merge for security patches.",
+          "severity": "high",
+          "signals": ["dependabot", "renovate", "dependabot.yml"],
+          "anti_signals": ["# vulnerability alerts disabled"],
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-whats-new"
+        },
+        {
+          "id": "post-incident-learning",
+          "requirement": "Repositories should document post-incident reviews (PIR).",
+          "rationale": "Drives continuous improvement after incidents.",
+          "how_to_verify": "Check for PIR templates or directories.",
+          "severity": "low",
+          "signals": ["docs/pir", "post_mortem_template.md"],
+          "anti_signals": ["# missing PIR process"],
+          "source_url": "https://learn.microsoft.com/en-us/security/zero-trust/sfi/secure-future-initiative-adoption"
+        }
+      ]
+    }
+  ],
+  "_fetch_notes": "Successfully fetched and parsed data from SFI overview, whats-new, adoption, and patterns pages using pagination to bypass truncation limits. Combined all objectives and best practices for pillars 4, 5, and 6 into the requested JSON schema."
+}
