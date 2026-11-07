@@ -26,6 +26,8 @@ flowchart TD
     H --> OUT[(reports/*.json + *.md)]
 ```
 
+![One knowledge base, three doors: research builds data/*.json, then the skill, the MCP server, and the scanner](diagrams/sfi-flow.png)
+
 ## Components
 
 | Path | Responsibility |
