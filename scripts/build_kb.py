@@ -22,6 +22,7 @@ import os
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
+from urllib.parse import urlparse
 
 KB_VERSION = "1.0.0"
 
@@ -131,6 +132,11 @@ def build_checklists(pillars: list[dict]) -> dict:
     return {"version": KB_VERSION, "generated_at": GENERATED_AT, "checklist": checklist}
 
 
+def _hostname_is_or_subdomain_of(url: str, domain: str) -> bool:
+    host = urlparse(url).hostname or ""
+    return host == domain or host.endswith("." + domain)
+
+
 def map_source_type(entry: dict) -> str:
     url = (entry.get("url") or "").lower()
     raw = (entry.get("type") or "").lower()
@@ -138,9 +144,9 @@ def map_source_type(entry: dict) -> str:
         return "blog"
     if raw == "pdf-report":
         return "progress_report"
-    if "nist.gov" in url:
+    if _hostname_is_or_subdomain_of(url, "nist.gov"):
         return "framework"
-    if "learn.microsoft.com" in url or raw == "learn":
+    if _hostname_is_or_subdomain_of(url, "learn.microsoft.com") or raw == "learn":
         return "documentation"
     if raw == "trust-center":
         return "documentation"
